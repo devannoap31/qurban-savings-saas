@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #146EF5;
+  --color-secondary: #D8D8D8;
+  --color-tertiary: #F0F0F0;
+  --color-neutral: #FFFFFF;
+  --color-surface: #FFFFFF;
+  --color-on-surface: #080808;
+  --color-muted: #6B6B6B;
+  --color-border: #D8D8D8;
+  --color-error: #D92D20;
+  --color-success: #12B76A;
+  
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+  }
+}
