@@ -9,7 +9,11 @@
         <div>
             <h2 class="text-3xl font-display font-medium text-[var(--color-secondary)]">Assalamu'alaikum, {{ $jemaah->nama_jemaah }}</h2>
             <p class="text-[var(--color-text-secondary)] font-body mt-2 flex items-center gap-2">
-                📍 {{ $jemaah->masjid->name }} &nbsp;•&nbsp; Slot {{ $jemaah->hewanKurban->deskripsi }}
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                {{ $jemaah->masjid->name }} &nbsp;•&nbsp; Slot {{ $jemaah->hewanKurban->deskripsi }}
             </p>
         </div>
         <div class="w-16 h-16 rounded-full bg-[var(--color-accent)] text-[var(--color-primary)] flex items-center justify-center font-display font-bold text-2xl mt-6 md:mt-0 shadow-md">
@@ -48,12 +52,18 @@
             <p class="text-[var(--color-text-secondary)] font-body mb-8 border-b border-[var(--color-border)] pb-6">Target: Rp {{ number_format($target, 0, ',', '.') }}</p>
             
             @if($sisa > 0)
-                <div class="bg-amber-50 text-amber-800 p-4 rounded-[4px] text-sm font-body border border-amber-200">
-                    Sisa waktu pelunasan tabungan adalah 14 hari sebelum Idul Adha. Harap segera melunasi agar slot tidak digantikan.
+                <div class="bg-amber-50 text-amber-800 p-4 rounded-[4px] text-sm font-body border border-amber-200 flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <span>Sisa waktu pelunasan tabungan adalah 14 hari sebelum Idul Adha. Harap segera melunasi agar slot tidak digantikan.</span>
                 </div>
             @else
-                <div class="bg-[#e3e8e0] text-[var(--color-accent)] p-4 rounded-[4px] text-sm font-body font-medium">
-                    Alhamdulillah, tabungan Anda sudah lunas. Semoga menjadi amal jariyah yang terus bertumbuh.
+                <div class="bg-[#e3e8e0] text-[var(--color-accent)] p-4 rounded-[4px] text-sm font-body font-medium flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Alhamdulillah, tabungan Anda sudah lunas. Semoga menjadi amal jariyah yang terus bertumbuh.</span>
                 </div>
             @endif
         </x-card>
