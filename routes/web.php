@@ -19,6 +19,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Authenticated Routes
 Route::middleware('auth')->group(function () {
     
+    // Superadmin Routes
+    Route::get('/superadmin/dashboard', [App\Http\Controllers\SuperadminController::class, 'index'])->name('superadmin.dashboard');
+
     // Admin Routes
     Route::middleware('can:admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');

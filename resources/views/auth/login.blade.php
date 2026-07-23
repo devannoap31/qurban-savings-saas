@@ -1,65 +1,48 @@
 @extends('layouts.app')
 
-@section('title', 'Login - Tabungan Kurban')
+@section('title', 'Masuk - Sylvan Kurban')
 
 @section('content')
 <div class="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8 bg-[var(--color-tertiary)] p-10 rounded-[8px] border border-[var(--color-border)] shadow-sm">
-        <div>
-            <h2 class="mt-2 text-center text-3xl font-bold tracking-tight text-[var(--color-on-surface)]">
-                Masuk ke Akun Anda
+    <x-card class="max-w-md w-full space-y-8 animate-hero">
+        <div class="text-center">
+            <h2 class="mt-2 text-3xl font-display font-bold text-[var(--color-secondary)] tracking-tight">
+                Selamat Datang Kembali
             </h2>
-            <p class="mt-2 text-center text-sm text-[var(--color-muted)]">
-                Silakan login menggunakan email yang terdaftar
+            <p class="mt-3 text-sm font-body text-[var(--color-text-secondary)]">
+                Masuk untuk melanjutkan ke Dasbor Anda
             </p>
         </div>
         
         <form class="mt-8 space-y-6" action="{{ route('login.post') }}" method="POST">
             @csrf
-            
-            @if ($errors->any())
-                <div class="bg-red-50 text-[var(--color-error)] p-4 rounded-[4px] text-sm font-medium">
-                    {{ $errors->first() }}
+            @if(session('error'))
+                <div class="bg-red-50 text-[var(--color-error)] p-4 rounded-[4px] text-sm font-mono border border-red-200">
+                    {{ session('error') }}
                 </div>
             @endif
-
-            <div class="space-y-4">
+            
+            <div class="space-y-5">
                 <div>
-                    <label for="email" class="block text-sm font-medium text-[var(--color-on-surface)] mb-1">Email address</label>
-                    <input id="email" name="email" type="email" required class="appearance-none block w-full px-4 py-3 border border-[var(--color-border)] rounded-[4px] bg-[var(--color-neutral)] text-[var(--color-on-surface)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] sm:text-sm" placeholder="Email (contoh: superadmin@example.com)">
+                    <label for="email" class="block text-sm font-mono font-semibold text-[var(--color-text-secondary)] mb-1">ALAMAT EMAIL</label>
+                    <input id="email" name="email" type="email" required class="appearance-none block w-full px-4 py-3 border border-[var(--color-border)] rounded-[4px] bg-[var(--color-primary)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent font-body sm:text-sm transition-colors">
                 </div>
                 <div>
-                    <label for="password" class="block text-sm font-medium text-[var(--color-on-surface)] mb-1">Password</label>
-                    <input id="password" name="password" type="password" required class="appearance-none block w-full px-4 py-3 border border-[var(--color-border)] rounded-[4px] bg-[var(--color-neutral)] text-[var(--color-on-surface)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] sm:text-sm" placeholder="Password (default: password)">
+                    <label for="password" class="block text-sm font-mono font-semibold text-[var(--color-text-secondary)] mb-1">KATA SANDI</label>
+                    <input id="password" name="password" type="password" required class="appearance-none block w-full px-4 py-3 border border-[var(--color-border)] rounded-[4px] bg-[var(--color-primary)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent font-body sm:text-sm transition-colors">
                 </div>
             </div>
 
             <div>
-                <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-[4px] shadow-sm text-sm font-medium text-white bg-[var(--color-primary)] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)] transition">
-                    Masuk Sekarang
-                </button>
+                <x-button type="submit" variant="secondary" class="w-full justify-center py-3.5">
+                    Masuk ke Akun
+                </x-button>
             </div>
             
-            <div class="mt-6">
-                <div class="relative">
-                    <div class="absolute inset-0 flex items-center">
-                        <div class="w-full border-t border-[var(--color-border)]"></div>
-                    </div>
-                    <div class="relative flex justify-center text-sm">
-                        <span class="px-2 bg-[var(--color-tertiary)] text-[var(--color-muted)]">
-                            Atau gunakan kredensial demo
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="mt-6 grid grid-cols-1 gap-3">
-                    <div class="text-xs text-center space-y-2 text-[var(--color-muted)]">
-                        <p><strong>Admin:</strong> admin@zayed.com / password</p>
-                        <p><strong>Jemaah:</strong> jemaah@example.com / password</p>
-                    </div>
-                </div>
+            <div class="text-center mt-6">
+                <a href="{{ route('mitra.register') }}" class="text-sm font-body text-[var(--color-text-secondary)] hover:text-[var(--color-secondary)] hover:underline transition">Pengurus Masjid belum punya akun? Daftar di sini</a>
             </div>
         </form>
-    </div>
+    </x-card>
 </div>
 @endsection
