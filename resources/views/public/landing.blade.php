@@ -5,8 +5,15 @@
 @section('content')
 <!-- Hero Section -->
 <div class="relative overflow-hidden pt-24 pb-32">
-    <!-- Background element -->
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-[#e3e8e0] to-transparent -z-10"></div>
+    <!-- Background Images -->
+    <div class="absolute inset-0 -z-10">
+        <picture>
+            <source media="(min-width: 768px)" srcset="{{ asset('images/hero_jemaah_dekstop.jpg') }}">
+            <img src="{{ asset('images/hero_jamaah_mobile.webp') }}" alt="Tabungan Kurban" class="w-full h-full object-cover">
+        </picture>
+        <!-- Overlay to ensure text readability -->
+        <div class="absolute inset-0 bg-white/40 md:bg-white/30 backdrop-blur-[1px]"></div>
+    </div>
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-hero">
         <h1 class="text-5xl md:text-7xl font-display font-medium text-[var(--color-secondary)] mb-6 tracking-tight leading-tight">
@@ -16,10 +23,14 @@
             Sylvan Kurban membantu Anda menabung kurban dengan tenang, terencana, dan penuh transparansi. Temukan masjid terdekat dan mulai menabung hari ini.
         </p>
         
-        <form action="{{ route('home') }}" method="GET" class="max-w-2xl mx-auto relative animate-hero">
-            <div class="flex flex-col sm:flex-row shadow-sm rounded-full overflow-hidden border border-[var(--color-border)] bg-[var(--color-surface)]">
-                <input type="text" name="q" value="{{ $search ?? '' }}" placeholder="Cari nama masjid atau kota tempat tinggal Anda..." class="w-full px-8 py-5 text-[var(--color-text-primary)] focus:outline-none bg-transparent font-display text-lg">
-                <button type="submit" class="bg-[var(--color-secondary)] text-[var(--color-primary)] px-10 py-5 font-display font-medium hover:bg-[var(--color-accent)] transition sm:w-auto w-full">Temukan</button>
+        <form action="{{ route('masjids.index') }}" method="GET" class="max-w-2xl mx-auto relative animate-hero">
+            <div class="flex shadow-sm rounded-full overflow-hidden border border-[var(--color-border)] bg-[var(--color-surface)] items-center pr-2">
+                <input type="text" name="q" placeholder="Cari nama masjid atau kota tempat tinggal Anda..." class="w-full px-8 py-5 text-[var(--color-text-primary)] focus:outline-none bg-transparent font-display text-lg">
+                <button type="submit" class="bg-[var(--color-secondary)] text-[var(--color-primary)] w-14 h-14 rounded-full flex items-center justify-center hover:bg-[var(--color-accent)] transition shrink-0 shadow-sm mr-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </button>
             </div>
         </form>
     </div>
@@ -53,56 +64,5 @@
     </div>
 </div>
 
-<!-- Search Results -->
-<div class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    @if(isset($search))
-        <h2 class="text-2xl font-display font-medium text-[var(--color-secondary)] mb-8 animate-hero">
-            Hasil pencarian untuk: <span class="italic font-body">"{{ $search }}"</span>
-        </h2>
-    @else
-        <h2 class="text-3xl font-display font-medium text-[var(--color-secondary)] mb-2 text-center animate-hero">Masjid Terdaftar</h2>
-        <p class="font-body text-[var(--color-text-secondary)] text-center mb-12 animate-hero">Mitra sylvan yang siap memfasilitasi ibadah kurban Anda.</p>
-    @endif
 
-    @if($masjids->count() > 0)
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            @foreach($masjids as $masjid)
-                <x-card class="animate-card flex flex-col h-full">
-                    <div class="mb-4">
-                        <span class="inline-block px-3 py-1 bg-[#e3e8e0] text-[var(--color-accent)] text-xs font-mono rounded-full mb-3">{{ $masjid->city }}</span>
-                        <h3 class="text-xl font-display font-bold text-[var(--color-secondary)]">{{ $masjid->name }}</h3>
-                        <p class="text-[var(--color-text-secondary)] font-body text-sm mt-2">{{ $masjid->address }}</p>
-                    </div>
-                    
-                    <div class="mt-4 pt-4 border-t border-[var(--color-border)] flex-grow">
-                        <h4 class="font-mono text-xs text-[var(--color-text-secondary)] uppercase tracking-wider font-semibold mb-3">Slot Kurban Tersedia:</h4>
-                        @if($masjid->hewanKurbans && $masjid->hewanKurbans->count() > 0)
-                            <ul class="space-y-3 font-body text-sm">
-                                @foreach($masjid->hewanKurbans as $hewan)
-                                    <li class="flex justify-between items-center">
-                                        <span class="text-[var(--color-secondary)] font-medium">{{ $hewan->jenis_hewan }} ({{ $hewan->deskripsi }})</span>
-                                        <span class="text-[var(--color-accent)] font-semibold">{{ $hewan->kapasitas_slot - $hewan->slot_terisi }} Sisa</span>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @else
-                            <p class="text-[var(--color-text-secondary)] text-sm italic font-body">Belum ada data hewan kurban.</p>
-                        @endif
-                    </div>
-                    
-                    <div class="mt-6 pt-4">
-                        <x-button variant="outline" class="w-full" onclick="alert('Ini adalah simulasi pendaftaran jemaah. Di sistem nyata, akan mengarah ke form registrasi Jemaah untuk masjid ini.')">
-                            Daftar Tabungan
-                        </x-button>
-                    </div>
-                </x-card>
-            @endforeach
-        </div>
-    @else
-        <div class="text-center py-16 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[8px] animate-hero">
-            <p class="text-xl text-[var(--color-text-secondary)] font-body">Mohon maaf, tidak ada masjid yang sesuai dengan pencarian Anda.</p>
-            <a href="{{ route('home') }}" class="text-[var(--color-accent)] font-medium mt-4 inline-block hover:underline font-display">Tampilkan semua masjid</a>
-        </div>
-    @endif
-</div>
 @endsection

@@ -10,7 +10,12 @@ class AuthController extends Controller
 {
     public function login()
     {
-        return view('auth.login');
+        return view('auth.login', ['is_mitra' => false]);
+    }
+
+    public function mitraLogin()
+    {
+        return view('auth.login', ['is_mitra' => true]);
     }
 
     public function authenticate(Request $request)

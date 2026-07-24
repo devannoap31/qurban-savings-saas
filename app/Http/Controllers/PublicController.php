@@ -10,6 +10,11 @@ class PublicController extends Controller
 {
     public function index(Request $request)
     {
+        return view('public.landing');
+    }
+
+    public function masjids(Request $request)
+    {
         $search = $request->input('q');
         
         $masjids = Masjid::with('hewanKurbans');
@@ -19,7 +24,8 @@ class PublicController extends Controller
                                ->orWhere('city', 'like', "%{$search}%");
         }
         
-        $masjids = $masjids->get();
+        // Paginate 10 per page
+        $masjids = $masjids->paginate(10);
         
         // Menambahkan ketersediaan slot untuk ditampilkan
         foreach ($masjids as $masjid) {
@@ -32,7 +38,7 @@ class PublicController extends Controller
             $masjid->sisa_slot = $totalSedia - $totalTerisi;
         }
 
-        return view('public.landing', compact('masjids', 'search'));
+        return view('public.masjid-list', compact('masjids', 'search'));
     }
 
     public function mitra()

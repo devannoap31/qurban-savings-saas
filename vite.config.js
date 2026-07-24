@@ -10,4 +10,10 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
+    server: {
+        host: '0.0.0.0',
+        hmr: {
+            host: '10.239.55.23', // Masukkan IP lokal laptop Anda di sini
+        },
+    },
 });

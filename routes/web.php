@@ -8,10 +8,12 @@ use App\Http\Controllers\JemaahController;
 
 // Public Routes
 Route::get('/', [PublicController::class, 'index'])->name('home');
+Route::get('/masjid', [PublicController::class, 'masjids'])->name('masjids.index');
 Route::get('/mitra', [PublicController::class, 'mitra'])->name('mitra');
 Route::get('/mitra/register', [PublicController::class, 'register'])->name('mitra.register');
 
 // Auth Routes
+Route::get('/mitra/login', [AuthController::class, 'mitraLogin'])->name('mitra.login');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

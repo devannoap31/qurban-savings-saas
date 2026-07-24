@@ -28,15 +28,14 @@
                 </div>
                 <div class="flex items-center gap-6 font-display">
                     @auth
-                        <a href="{{ route('jemaah.dashboard') }}" class="text-[var(--color-text-secondary)] hover:text-[var(--color-secondary)] font-medium text-sm transition">Tabungan Saya</a>
+                        <a href="{{ route('superadmin.dashboard') }}" class="text-[var(--color-text-secondary)] hover:text-[var(--color-secondary)] font-medium text-sm transition">Panel Pusat</a>
                         
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="border border-[var(--color-border)] text-[var(--color-text-primary)] px-5 py-2.5 rounded-full text-sm font-medium hover:bg-[var(--color-border)] transition">Keluar</button>
                         </form>
                     @else
-                        <a href="{{ route('login') }}" class="text-[var(--color-text-secondary)] hover:text-[var(--color-secondary)] font-medium text-sm transition">Masuk</a>
-                        <a href="{{ route('mitra') }}" class="bg-[var(--color-secondary)] text-[var(--color-primary)] px-6 py-2.5 rounded-full text-sm font-medium hover:bg-[var(--color-accent)] transition shadow-sm">Bermitra</a>
+                        <a href="{{ route('login') }}" class="text-[var(--color-text-secondary)] hover:text-[var(--color-secondary)] font-medium text-sm transition">Masuk Admin Pusat</a>
                     @endauth
                 </div>
             </div>
