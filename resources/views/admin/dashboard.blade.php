@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.dashboard-mitra')
 
 @section('title', 'Dashboard Admin - Sylvan Kurban')
 

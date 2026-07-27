@@ -50,4 +50,29 @@ class PublicController extends Controller
     {
         return view('admin.register');
     }
+
+    public function tentang()
+    {
+        return view('public.pages.tentang');
+    }
+
+    public function panduan()
+    {
+        return view('public.pages.panduan');
+    }
+
+    public function bantuan()
+    {
+        return view('public.pages.bantuan');
+    }
+
+    public function privasi()
+    {
+        return view('public.pages.privasi');
+    }
+
+    public function syarat()
+    {
+        return view('public.pages.syarat');
+    }
 }

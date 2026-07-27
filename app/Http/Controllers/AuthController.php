@@ -10,12 +10,17 @@ class AuthController extends Controller
 {
     public function login()
     {
-        return view('auth.login', ['is_mitra' => false]);
+        return view('auth.login', ['is_mitra' => false, 'is_superadmin' => false]);
     }
 
     public function mitraLogin()
     {
-        return view('auth.login', ['is_mitra' => true]);
+        return view('auth.login', ['is_mitra' => true, 'is_superadmin' => false]);
+    }
+
+    public function superadminLogin()
+    {
+        return view('auth.login', ['is_mitra' => false, 'is_superadmin' => true]);
     }
 
     public function authenticate(Request $request)

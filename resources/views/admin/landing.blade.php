@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.public-mitra')
 
 @section('title', 'Mitra Masjid - Sylvan Kurban')
 
@@ -79,4 +79,48 @@
         </div>
     </div>
 </div>
+
+<!-- Cara Bermitra Section -->
+<div class="py-24 border-t border-[var(--color-border)] bg-[var(--color-surface)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-hero">
+            <h2 class="text-3xl font-display font-medium text-[var(--color-secondary)] mb-4">Cara Mudah Bermitra</h2>
+            <p class="font-body text-[var(--color-text-secondary)] text-lg max-w-2xl mx-auto">Tiga langkah praktis membawa manajemen kurban masjid Anda ke era digital.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+            <div class="animate-card">
+                <div class="w-20 h-20 bg-[var(--color-background)] rounded-full flex items-center justify-center mx-auto mb-6 border border-[var(--color-border)] shadow-sm text-3xl font-display text-[var(--color-accent)] font-bold">1</div>
+                <h3 class="text-xl font-display font-bold text-[var(--color-secondary)] mb-3">Daftarkan Masjid</h3>
+                <p class="font-body text-[var(--color-text-secondary)]">Isi formulir pendaftaran singkat dengan data takmir dan informasi masjid yang valid.</p>
+            </div>
+            
+            <div class="animate-card" style="animation-delay: 100ms;">
+                <div class="w-20 h-20 bg-[var(--color-background)] rounded-full flex items-center justify-center mx-auto mb-6 border border-[var(--color-border)] shadow-sm text-3xl font-display text-[var(--color-accent)] font-bold">2</div>
+                <h3 class="text-xl font-display font-bold text-[var(--color-secondary)] mb-3">Atur Slot Kurban</h3>
+                <p class="font-body text-[var(--color-text-secondary)]">Tentukan jenis hewan kurban (Sapi/Kambing), spesifikasi, harga, dan target biaya di dasbor Anda.</p>
+            </div>
+            
+            <div class="animate-card" style="animation-delay: 200ms;">
+                <div class="w-20 h-20 bg-[var(--color-background)] rounded-full flex items-center justify-center mx-auto mb-6 border border-[var(--color-border)] shadow-sm text-3xl font-display text-[var(--color-accent)] font-bold">3</div>
+                <h3 class="text-xl font-display font-bold text-[var(--color-secondary)] mb-3">Mulai Menerima Jemaah</h3>
+                <p class="font-body text-[var(--color-text-secondary)]">Masjid Anda kini tampil di halaman pencarian, siap menerima setoran tabungan dari jemaah mana pun.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="bg-[var(--color-secondary)] py-20 border-t border-[var(--color-secondary)]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-hero">
+        <h2 class="text-3xl md:text-4xl font-display font-medium text-[var(--color-primary)] mb-6">Siap Mendigitalkan Manajemen Kurban Masjid Anda?</h2>
+        <p class="font-body text-[#cce8d6] text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
+            Bergabunglah dengan ekosistem Sylvan Kurban. Kurangi stres pencatatan manual dan tingkatkan kepercayaan dari transparansi dana umat.
+        </p>
+        <a href="{{ route('mitra.register') }}" class="inline-flex items-center justify-center px-8 py-4 bg-[var(--color-primary)] text-[var(--color-secondary)] rounded-full font-display font-bold text-sm transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg">
+            Daftarkan Masjid Sekarang
+        </a>
+    </div>
+</div>
+
 @endsection

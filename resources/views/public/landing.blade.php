@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.public-jemaah')
 
 @section('title', 'Sylvan Kurban - Tabungan Kurban')
 
@@ -12,14 +12,14 @@
             <img src="{{ asset('images/hero_jamaah_mobile.webp') }}" alt="Tabungan Kurban" class="w-full h-full object-cover">
         </picture>
         <!-- Overlay to ensure text readability -->
-        <div class="absolute inset-0 bg-white/40 md:bg-white/30 backdrop-blur-[1px]"></div>
+        <div class="absolute inset-0 bg-[var(--color-secondary)]/70 md:bg-[var(--color-secondary)]/60 backdrop-blur-[2px]"></div>
     </div>
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-hero">
-        <h1 class="text-5xl md:text-7xl font-display font-medium text-[var(--color-secondary)] mb-6 tracking-tight leading-tight">
-            Niat Baik, <br><span class="italic font-body text-[var(--color-accent)]">Tumbuh Perlahan.</span>
+        <h1 class="text-5xl md:text-7xl font-display font-medium text-[var(--color-primary)] mb-6 tracking-tight leading-tight">
+            Niat Baik, <br><span class="italic font-body text-[#cce8d6]">Tumbuh Perlahan.</span>
         </h1>
-        <p class="mt-4 text-xl text-[var(--color-text-secondary)] font-body max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p class="mt-4 text-xl text-gray-200 font-body max-w-2xl mx-auto mb-10 leading-relaxed">
             Sylvan Kurban membantu Anda menabung kurban dengan tenang, terencana, dan penuh transparansi. Temukan masjid terdekat dan mulai menabung hari ini.
         </p>
         
@@ -64,5 +64,74 @@
     </div>
 </div>
 
+<!-- Keunggulan Section -->
+<div class="bg-[var(--color-background)] py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row items-center gap-16">
+            <div class="w-full md:w-1/2 animate-hero">
+                <span class="inline-block px-3 py-1 bg-[#e3e8e0] text-[var(--color-accent)] text-xs font-mono rounded-full mb-4">KENAPA SYLVAN?</span>
+                <h2 class="text-3xl md:text-4xl font-display font-medium text-[var(--color-secondary)] mb-6 leading-tight">Beribadah dengan Pikiran yang Tenang</h2>
+                <p class="font-body text-[var(--color-text-secondary)] text-lg mb-8 leading-relaxed">
+                    Kami mendesain Sylvan Kurban untuk memberikan kepastian dan keamanan bagi Anda. Setiap rupiah yang Anda tabungkan dapat dilacak penggunaannya secara transparan.
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-start">
+                        <svg class="h-6 w-6 text-[var(--color-accent)] mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span class="font-body text-[var(--color-text-primary)]"><strong>100% Transparan:</strong> Lihat laporan pembelian hewan kurban langsung dari takmir masjid.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="h-6 w-6 text-[var(--color-accent)] mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span class="font-body text-[var(--color-text-primary)]"><strong>Tanpa Potongan:</strong> Dana ditransfer langsung ke rekening masjid, tanpa biaya admin tambahan.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="h-6 w-6 text-[var(--color-accent)] mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span class="font-body text-[var(--color-text-primary)]"><strong>Fleksibel:</strong> Atur sendiri target penyelesaian dan jumlah setoran sesuai dengan kemampuan.</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="w-full md:w-1/2">
+                <div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-8 shadow-sm transform rotate-1 hover:rotate-0 transition duration-500">
+                    <div class="flex items-center justify-between mb-6 border-b border-[var(--color-border)] pb-4">
+                        <div class="font-display font-bold text-[var(--color-secondary)]">Simulasi Tabungan</div>
+                        <div class="text-xs font-mono text-[var(--color-text-secondary)]">Kambing Premium</div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center font-body text-sm">
+                            <span class="text-[var(--color-text-secondary)]">Target Biaya</span>
+                            <span class="font-bold text-[var(--color-text-primary)]">Rp 3.500.000</span>
+                        </div>
+                        <div class="flex justify-between items-center font-body text-sm">
+                            <span class="text-[var(--color-text-secondary)]">Telah Terkumpul</span>
+                            <span class="font-bold text-[var(--color-success)]">Rp 2.000.000</span>
+                        </div>
+                        <div class="w-full bg-[var(--color-background)] rounded-full h-2.5 mt-2 overflow-hidden border border-[var(--color-border)]">
+                            <div class="bg-[var(--color-accent)] h-full rounded-full" style="width: 57%"></div>
+                        </div>
+                        <div class="text-right text-xs font-mono text-[var(--color-text-secondary)] mt-1">57% Tercapai</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="bg-[var(--color-secondary)] py-20 border-t border-[var(--color-secondary)]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-hero">
+        <h2 class="text-3xl md:text-4xl font-display font-medium text-[var(--color-primary)] mb-6">Mulai Tabungan Kurban Anda Hari Ini</h2>
+        <p class="font-body text-[#cce8d6] text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
+            Jangan tunda niat baik Anda. Temukan masjid yang cocok dan mulai mencicil tabungan dengan langkah kecil yang sangat berarti.
+        </p>
+        <a href="{{ route('masjids.index') }}" class="inline-flex items-center justify-center px-8 py-4 bg-[var(--color-primary)] text-[var(--color-secondary)] rounded-full font-display font-bold text-sm transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg">
+            Cari Masjid Terdekat
+        </a>
+    </div>
+</div>
 
 @endsection

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.public-jemaah')
 
 @section('title', 'Daftar Masjid - Sylvan Kurban')
 
