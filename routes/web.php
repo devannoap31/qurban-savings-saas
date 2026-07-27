@@ -9,6 +9,9 @@ use App\Http\Controllers\JemaahController;
 // Public Routes
 Route::get('/', [PublicController::class, 'index'])->name('home');
 Route::get('/masjid', [PublicController::class, 'masjids'])->name('masjids.index');
+Route::get('/masjid/{id}', [PublicController::class, 'showMasjid'])->name('masjids.show');
+Route::get('/masjid/{id}/daftar', [PublicController::class, 'daftarJemaah'])->name('masjids.daftar');
+Route::post('/masjid/{id}/daftar', [PublicController::class, 'storeJemaah'])->name('masjids.daftar.store');
 Route::get('/mitra', [PublicController::class, 'mitra'])->name('mitra');
 Route::get('/mitra/register', [PublicController::class, 'register'])->name('mitra.register');
 
@@ -35,7 +38,19 @@ Route::middleware('auth')->group(function () {
     // Admin Routes
     Route::middleware('can:admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-        // Add more admin routes here as needed (store, update, destroy)
+        
+        // Masjid Image Management
+        Route::put('/masjid/image', [AdminController::class, 'updateImage'])->name('masjid.image.update');
+        Route::delete('/masjid/image', [AdminController::class, 'removeImage'])->name('masjid.image.remove');
+        
+        // Admin CRUD
+        Route::post('/hewan', [AdminController::class, 'storeHewan'])->name('hewan.store');
+        Route::post('/setoran', [AdminController::class, 'storeSetoran'])->name('setoran.store');
+        Route::post('/pengeluaran', [AdminController::class, 'storePengeluaran'])->name('pengeluaran.store');
+        Route::put('/masjid/profil', [AdminController::class, 'updateProfil'])->name('masjid.profil.update');
+        Route::post('/masjid/rekening', [AdminController::class, 'storeRekening'])->name('masjid.rekening.store');
+        Route::put('/masjid/rekening/{id}', [AdminController::class, 'updateRekening'])->name('masjid.rekening.update');
+        Route::delete('/masjid/rekening/{id}', [AdminController::class, 'destroyRekening'])->name('masjid.rekening.destroy');
     });
 
     // Jemaah Routes

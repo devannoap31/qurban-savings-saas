@@ -40,9 +40,10 @@ class DatabaseSeeder extends Seeder
             // 2. Masjid
             $masjid = Masjid::create([
                 'admin_id' => $admin->id,
-                'name' => "Masjid " . $faker->company,
+                'name' => 'Masjid ' . $faker->company,
                 'address' => $faker->streetAddress,
-                'city' => $faker->city
+                'city' => $faker->city,
+                'gambar' => 'https://picsum.photos/seed/masjid' . $i . '/600/400',
             ]);
 
             // 3. Hewan Kurban

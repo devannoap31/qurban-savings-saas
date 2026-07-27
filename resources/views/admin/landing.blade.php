@@ -3,11 +3,15 @@
 @section('title', 'Mitra Masjid - Sylvan Kurban')
 
 @section('content')
-<div class="bg-[var(--color-secondary)] text-[var(--color-primary)] py-24 border-b border-[var(--color-secondary)] relative overflow-hidden">
-    <!-- Abstract nature shape -->
-    <div class="absolute top-0 right-0 w-1/2 h-full bg-[var(--color-accent)] opacity-20 -skew-x-12 transform origin-top-right"></div>
+<div class="relative overflow-hidden pt-24 pb-32 border-b border-[var(--color-border)]">
+    <!-- Background Images -->
+    <div class="absolute inset-0 -z-10">
+        <img src="{{ asset('images/hero-mitra.jpg') }}" alt="Mitra Masjid" class="w-full h-full object-cover">
+        <!-- Overlay to ensure text readability -->
+        <div class="absolute inset-0 bg-[var(--color-secondary)]/80 backdrop-blur-[2px]"></div>
+    </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 animate-hero">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 animate-hero text-[var(--color-primary)]">
         <div class="max-w-3xl">
             <span class="inline-block px-3 py-1 bg-[var(--color-accent)] text-[var(--color-primary)] text-xs font-mono rounded-full mb-6">B2B SOLUTION</span>
             <h1 class="text-4xl md:text-6xl font-display font-medium mb-6 leading-tight">
@@ -105,6 +109,58 @@
                 <div class="w-20 h-20 bg-[var(--color-background)] rounded-full flex items-center justify-center mx-auto mb-6 border border-[var(--color-border)] shadow-sm text-3xl font-display text-[var(--color-accent)] font-bold">3</div>
                 <h3 class="text-xl font-display font-bold text-[var(--color-secondary)] mb-3">Mulai Menerima Jemaah</h3>
                 <p class="font-body text-[var(--color-text-secondary)]">Masjid Anda kini tampil di halaman pencarian, siap menerima setoran tabungan dari jemaah mana pun.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Impact Stats -->
+<div class="bg-[var(--color-accent)] py-20 border-y border-[#1a3423]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12 animate-hero">
+            <h2 class="text-2xl md:text-3xl font-display font-medium text-[#cce8d6]">Dampak Nyata Digitalisasi Kurban</h2>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center animate-hero">
+            <div>
+                <div class="text-4xl md:text-5xl font-display font-bold text-white mb-2">85%</div>
+                <div class="font-body text-[#cce8d6] text-sm uppercase tracking-wider">Efisiensi Waktu Panitia</div>
+            </div>
+            <div>
+                <div class="text-4xl md:text-5xl font-display font-bold text-white mb-2">3x</div>
+                <div class="font-body text-[#cce8d6] text-sm uppercase tracking-wider">Pertumbuhan Jemaah Baru</div>
+            </div>
+            <div>
+                <div class="text-4xl md:text-5xl font-display font-bold text-white mb-2">0</div>
+                <div class="font-body text-[#cce8d6] text-sm uppercase tracking-wider">Selisih Perhitungan Uang</div>
+            </div>
+            <div>
+                <div class="text-4xl md:text-5xl font-display font-bold text-white mb-2">24/7</div>
+                <div class="font-body text-[#cce8d6] text-sm uppercase tracking-wider">Akses Pantauan Real-time</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Mitra Section -->
+<div class="bg-[var(--color-background)] py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-hero">
+            <h2 class="text-3xl font-display font-medium text-[var(--color-secondary)] mb-4">Tanya Jawab Takmir</h2>
+            <p class="font-body text-[var(--color-text-secondary)] text-lg">Pertanyaan yang sering ditanyakan oleh pengurus masjid.</p>
+        </div>
+        
+        <div class="space-y-4 animate-hero">
+            <div class="bg-white rounded-xl border border-[var(--color-border)] p-6 hover:border-[var(--color-accent)] transition-colors">
+                <h3 class="text-lg font-display font-bold text-[var(--color-secondary)] mb-2">Apakah data jemaah masjid saya aman dan tidak bocor ke masjid lain?</h3>
+                <p class="font-body text-[var(--color-text-secondary)]">Sangat aman. Sistem kami dirancang menggunakan arsitektur <em>Multi-Tenant</em>. Artinya, setiap data jemaah, slot kurban, dan setoran benar-benar diisolasi. Admin masjid lain tidak akan pernah bisa mengakses atau melihat data jemaah Anda.</p>
+            </div>
+            <div class="bg-white rounded-xl border border-[var(--color-border)] p-6 hover:border-[var(--color-accent)] transition-colors">
+                <h3 class="text-lg font-display font-bold text-[var(--color-secondary)] mb-2">Bagaimana cara uang setoran masuk?</h3>
+                <p class="font-body text-[var(--color-text-secondary)]">Sistem ini murni sebagai pencatatan dan pengelolaan (buku besar digital). Jemaah akan tetap mentransfer dana secara langsung ke rekening resmi masjid Anda. Setelah itu, admin Anda hanya perlu memverifikasi dan menginput nominalnya di dasbor.</p>
+            </div>
+            <div class="bg-white rounded-xl border border-[var(--color-border)] p-6 hover:border-[var(--color-accent)] transition-colors">
+                <h3 class="text-lg font-display font-bold text-[var(--color-secondary)] mb-2">Apakah aplikasi ini berbayar?</h3>
+                <p class="font-body text-[var(--color-text-secondary)]">Sylvan Kurban disediakan sebagai bentuk pengabdian untuk umat. Pengurus masjid dapat menggunakan layanan pencatatan ini secara gratis tanpa ada potongan dana kurban sepeser pun.</p>
             </div>
         </div>
     </div>

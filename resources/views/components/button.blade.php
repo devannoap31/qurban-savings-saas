@@ -13,6 +13,12 @@
     $variantClass = $variants[$variant] ?? $variants['primary'];
 @endphp
 
-<button type="{{ $type }}" {{ $attributes->merge(['class' => "$baseClass $variantClass $class"]) }}>
-    {{ $slot }}
-</button>
+@if($attributes->has('href'))
+    <a {{ $attributes->merge(['class' => "$baseClass $variantClass $class"]) }}>
+        {{ $slot }}
+    </a>
+@else
+    <button type="{{ $type }}" {{ $attributes->merge(['class' => "$baseClass $variantClass $class"]) }}>
+        {{ $slot }}
+    </button>
+@endif

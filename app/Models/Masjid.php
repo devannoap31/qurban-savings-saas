@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Masjid extends Model
 {
-    protected $fillable = ['admin_id', 'name', 'address', 'city'];
+    protected $fillable = ['admin_id', 'name', 'address', 'city', 'deskripsi', 'kontak_person'];
 
     public function admin()
     {
@@ -31,5 +31,10 @@ class Masjid extends Model
     public function pengeluarans()
     {
         return $this->hasMany(Pengeluaran::class, 'masjid_id');
+    }
+
+    public function rekenings()
+    {
+        return $this->hasMany(MasjidRekening::class, 'masjid_id');
     }
 }

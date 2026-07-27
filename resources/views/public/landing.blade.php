@@ -24,14 +24,7 @@
         </p>
         
         <form action="{{ route('masjids.index') }}" method="GET" class="max-w-2xl mx-auto relative animate-hero">
-            <div class="flex shadow-sm rounded-full overflow-hidden border border-[var(--color-border)] bg-[var(--color-surface)] items-center pr-2">
-                <input type="text" name="q" placeholder="Cari nama masjid atau kota tempat tinggal Anda..." class="w-full px-8 py-5 text-[var(--color-text-primary)] focus:outline-none bg-transparent font-display text-lg">
-                <button type="submit" class="bg-[var(--color-secondary)] text-[var(--color-primary)] w-14 h-14 rounded-full flex items-center justify-center hover:bg-[var(--color-accent)] transition shrink-0 shadow-sm mr-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                    </svg>
-                </button>
-            </div>
+            <x-search-bar size="large" placeholder="Cari nama masjid atau kota tempat tinggal Anda..." />
         </form>
     </div>
 </div>
@@ -116,6 +109,115 @@
                         <div class="text-right text-xs font-mono text-[var(--color-text-secondary)] mt-1">57% Tercapai</div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistik Section -->
+<div class="bg-[var(--color-accent)] py-20 border-y border-[#1a3423]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center animate-hero">
+            <div>
+                <div class="text-4xl md:text-5xl font-display font-bold text-[#cce8d6] mb-2">150+</div>
+                <div class="font-body text-white text-sm uppercase tracking-wider">Masjid Mitra</div>
+            </div>
+            <div>
+                <div class="text-4xl md:text-5xl font-display font-bold text-[#cce8d6] mb-2">3.2K</div>
+                <div class="font-body text-white text-sm uppercase tracking-wider">Jemaah Aktif</div>
+            </div>
+            <div>
+                <div class="text-4xl md:text-5xl font-display font-bold text-[#cce8d6] mb-2">Rp 4B+</div>
+                <div class="font-body text-white text-sm uppercase tracking-wider">Dana Terkelola</div>
+            </div>
+            <div>
+                <div class="text-4xl md:text-5xl font-display font-bold text-[#cce8d6] mb-2">100%</div>
+                <div class="font-body text-white text-sm uppercase tracking-wider">Transparansi</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Testimoni Section -->
+<div class="bg-[var(--color-surface)] py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-hero">
+            <h2 class="text-3xl font-display font-medium text-[var(--color-secondary)] mb-4">Cerita Kebaikan</h2>
+            <p class="font-body text-[var(--color-text-secondary)] text-lg">Apa kata mereka yang telah menggunakan Sylvan Kurban.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <x-card class="bg-white hover:-translate-y-2 transition-transform duration-300">
+                <div class="flex items-center mb-4 text-[#eab308]">
+                    @for($i=0; $i<5; $i++)
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    @endfor
+                </div>
+                <p class="font-body text-[var(--color-text-secondary)] mb-6 italic">"Awalnya saya ragu menabung kurban secara digital. Tapi dengan Sylvan, saya bisa lihat progres setoran saya kapan saja, dan laporannya sangat detail. Alhamdulillah tahun ini bisa berkurban."</p>
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-[#e3e8e0] rounded-full flex items-center justify-center text-[var(--color-accent)] font-bold font-display mr-3">AR</div>
+                    <div>
+                        <div class="font-display font-bold text-[var(--color-text-primary)] text-sm">Ahmad Ridhani</div>
+                        <div class="font-body text-xs text-[var(--color-text-secondary)]">Jemaah Masjid Nurul Iman</div>
+                    </div>
+                </div>
+            </x-card>
+            
+            <x-card class="bg-white hover:-translate-y-2 transition-transform duration-300">
+                <div class="flex items-center mb-4 text-[#eab308]">
+                    @for($i=0; $i<5; $i++)
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    @endfor
+                </div>
+                <p class="font-body text-[var(--color-text-secondary)] mb-6 italic">"Sistem cicilannya sangat membantu bagi saya yang berpenghasilan tidak menentu. Saya bisa setor berapa saja tiap bulan tanpa paksaan. Sangat menenangkan pikiran."</p>
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-[#e3e8e0] rounded-full flex items-center justify-center text-[var(--color-accent)] font-bold font-display mr-3">SF</div>
+                    <div>
+                        <div class="font-display font-bold text-[var(--color-text-primary)] text-sm">Siti Fatimah</div>
+                        <div class="font-body text-xs text-[var(--color-text-secondary)]">Jemaah Masjid Agung</div>
+                    </div>
+                </div>
+            </x-card>
+            
+            <x-card class="bg-white hover:-translate-y-2 transition-transform duration-300">
+                <div class="flex items-center mb-4 text-[#eab308]">
+                    @for($i=0; $i<5; $i++)
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    @endfor
+                </div>
+                <p class="font-body text-[var(--color-text-secondary)] mb-6 italic">"Desain webnya rapi dan sangat mudah digunakan bahkan untuk saya yang kurang paham teknologi. Proses memilih hewan dan transfernya sangat jelas."</p>
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-[#e3e8e0] rounded-full flex items-center justify-center text-[var(--color-accent)] font-bold font-display mr-3">BU</div>
+                    <div>
+                        <div class="font-display font-bold text-[var(--color-text-primary)] text-sm">Budi Utomo</div>
+                        <div class="font-body text-xs text-[var(--color-text-secondary)]">Jemaah Masjid Al Huda</div>
+                    </div>
+                </div>
+            </x-card>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Section -->
+<div class="bg-[var(--color-background)] py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-hero">
+            <h2 class="text-3xl font-display font-medium text-[var(--color-secondary)] mb-4">Pertanyaan Seputar Kurban</h2>
+            <p class="font-body text-[var(--color-text-secondary)] text-lg">Informasi yang sering ditanyakan oleh calon jemaah.</p>
+        </div>
+        
+        <div class="space-y-4 animate-hero">
+            <div class="bg-white rounded-xl border border-[var(--color-border)] p-6 hover:border-[var(--color-accent)] transition-colors">
+                <h3 class="text-lg font-display font-bold text-[var(--color-secondary)] mb-2">Apakah ada biaya tambahan atau potongan admin?</h3>
+                <p class="font-body text-[var(--color-text-secondary)]">Tidak ada. 100% uang yang Anda setorkan akan masuk ke saldo tabungan Anda di masjid terkait. Kami tidak memotong dana jemaah sedikit pun.</p>
+            </div>
+            <div class="bg-white rounded-xl border border-[var(--color-border)] p-6 hover:border-[var(--color-accent)] transition-colors">
+                <h3 class="text-lg font-display font-bold text-[var(--color-secondary)] mb-2">Bagaimana jika target dana belum terkumpul hingga hari raya?</h3>
+                <p class="font-body text-[var(--color-text-secondary)]">Uang Anda tetap aman di rekening masjid. Anda dapat melanjutkannya untuk kurban di tahun berikutnya, atau menarik kembali dana tersebut sesuai kesepakatan dengan panitia masjid.</p>
+            </div>
+            <div class="bg-white rounded-xl border border-[var(--color-border)] p-6 hover:border-[var(--color-accent)] transition-colors">
+                <h3 class="text-lg font-display font-bold text-[var(--color-secondary)] mb-2">Apakah saya bisa memilih jenis hewan?</h3>
+                <p class="font-body text-[var(--color-text-secondary)]">Tentu. Saat mendaftar ke suatu masjid, Anda akan diberikan pilihan hewan (misal: Sapi Patungan, Kambing Standar, dll) yang telah disediakan oleh masjid tersebut beserta target harganya.</p>
             </div>
         </div>
     </div>
