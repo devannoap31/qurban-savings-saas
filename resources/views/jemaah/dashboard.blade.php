@@ -18,11 +18,12 @@
         </div>
         <div class="bg-white px-5 py-3 rounded-lg border border-[var(--color-border)] shadow-sm inline-flex items-center">
             <span class="w-3 h-3 rounded-full bg-[var(--color-success)] mr-3 animate-pulse"></span>
-            <span class="font-mono text-sm text-[var(--color-text-secondary)]">Status: <strong class="text-[var(--color-secondary)]">{{ $jemaah->status }}</strong></span>
+            <span class="font-mono text-sm text-[var(--color-text-secondary)]">Status: <strong class="text-[var(--color-secondary)]">Terdaftar di {{ $jemaahs->count() }} Masjid</strong></span>
         </div>
     </div>
 
     <!-- Info Masjid & Kurban -->
+    @foreach($jemaahs as $jemaah)
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
         <div class="lg:col-span-2">
             <x-card class="animate-card h-full bg-white border-[var(--color-border)]">
@@ -68,20 +69,58 @@
         </div>
 
         <div class="lg:col-span-1">
-            <x-card class="animate-card h-full bg-[var(--color-secondary)] text-[var(--color-primary)] border-none">
-                <h3 class="font-display font-bold text-lg mb-4 text-[#cce8d6]">Masjid Pilihan</h3>
+            <div class="animate-card h-full bg-[#0E2116] text-[#F3F6F3] rounded-2xl p-8 shadow-sm" x-data="{ showRekening{{ $jemaah->id }}: false }">
+                <h3 class="font-display font-bold text-lg mb-4 text-[#cce8d6]">Masjid Pilihan Anda</h3>
                 <h4 class="text-2xl font-display font-medium mb-2">{{ $jemaah->masjid->name }}</h4>
                 <p class="font-body text-sm text-gray-300 mb-6 flex items-start">
                     <svg class="w-4 h-4 mr-2 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    {{ $jemaah->masjid->address }}, {{ $jemaah->masjid->city }}
+                    {{ $jemaah->masjid->address ?? 'Alamat belum diatur' }}
                 </p>
                 <div class="pt-6 border-t border-[#1a3423]">
-                    <p class="font-body text-sm text-gray-300 mb-4">Untuk melakukan setoran, silakan transfer langsung ke rekening resmi masjid dan konfirmasikan ke takmir.</p>
-                    <x-button variant="primary" class="w-full justify-center bg-[var(--color-primary)] text-[var(--color-secondary)] hover:bg-[#e3e8e0]" onclick="alert('Ini akan memunculkan popup informasi rekening masjid.')">Info Rekening</x-button>
+                    <p class="font-body text-sm text-gray-300 mb-4">Untuk melakukan setoran tabungan, silakan transfer ke rekening resmi masjid dan konfirmasikan ke takmir.</p>
+                    <x-button variant="primary" class="w-full justify-center bg-[#F3F6F3] text-[#0E2116] hover:bg-[#e3e8e0]" @click="showRekening{{ $jemaah->id }} = true">Lihat Info Rekening</x-button>
                 </div>
-            </x-card>
+                
+                <!-- Modal Info Rekening -->
+                <template x-teleport="body">
+                    <div x-show="showRekening{{ $jemaah->id }}" style="display: none;" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+                        <div @click.away="showRekening{{ $jemaah->id }} = false" class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md text-[#111827]">
+                            <div class="flex justify-between items-center mb-6 border-b pb-3">
+                                <h3 class="font-display font-bold text-xl text-[#0E2116]">Rekening {{ $jemaah->masjid->name }}</h3>
+                                <button @click="showRekening{{ $jemaah->id }} = false" class="text-gray-400 hover:text-red-600 transition"><i class="fa-solid fa-times text-xl"></i></button>
+                            </div>
+                            
+                            <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+                                @if($jemaah->masjid->rekenings && $jemaah->masjid->rekenings->count() > 0)
+                                    @foreach($jemaah->masjid->rekenings as $rek)
+                                        <div class="p-4 border border-gray-200 rounded-lg bg-gray-50 relative overflow-hidden group">
+                                            <div class="absolute right-0 top-0 w-16 h-16 bg-[#2A4E35] opacity-10 rounded-bl-full"></div>
+                                            <div class="font-bold text-[#0E2116] text-lg mb-1">{{ $rek->platform }}</div>
+                                            <div class="font-mono text-xl tracking-wider text-[#2A4E35] mb-2 font-bold">{{ $rek->nomor_rekening }}</div>
+                                            <div class="text-sm text-gray-600">a.n. <span class="font-semibold">{{ $rek->atas_nama }}</span></div>
+                                        </div>
+                                    @endforeach
+                                    <div class="mt-4 p-3 bg-blue-50 text-blue-800 text-xs font-body rounded-md border border-blue-100">
+                                        <strong>Penting:</strong> Setelah transfer, mohon konfirmasi ke pihak masjid (Takmir) agar setoran Anda dicatat ke dalam sistem.
+                                    </div>
+                                @else
+                                    <div class="p-8 text-center text-gray-500 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+                                        <i class="fa-solid fa-wallet text-3xl mb-3 text-gray-300"></i>
+                                        <p>Masjid belum menambahkan informasi rekening/pembayaran.</p>
+                                    </div>
+                                @endif
+                            </div>
+                            
+                            <div class="mt-6">
+                                <x-button @click="showRekening{{ $jemaah->id }} = false" variant="secondary" class="w-full justify-center">Tutup</x-button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
         </div>
     </div>
+    @endforeach
 
     <!-- Riwayat & Transparansi -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -98,7 +137,7 @@
                                 </div>
                                 <div>
                                     <p class="font-display font-medium text-[var(--color-secondary)]">Setoran Tabungan</p>
-                                    <p class="text-xs font-mono text-[var(--color-text-secondary)] mt-1">{{ \Carbon\Carbon::parse($setoran->tanggal_setor)->translatedFormat('d F Y') }}</p>
+                                    <p class="text-xs font-mono text-[var(--color-text-secondary)] mt-1">{{ \Carbon\Carbon::parse($setoran->tanggal_setor)->translatedFormat('d M Y') }} &bull; <span class="font-semibold">{{ $setoran->masjid->name ?? 'Masjid' }}</span></p>
                                 </div>
                             </div>
                             <span class="font-mono font-bold text-[var(--color-success)]">+ Rp {{ number_format($setoran->nominal, 0, ',', '.') }}</span>
@@ -116,9 +155,6 @@
         <div class="animate-card">
             <h2 class="text-2xl font-display font-medium text-[var(--color-secondary)] mb-6">Transparansi Dana Panitia</h2>
             <x-card class="p-0 overflow-hidden bg-white border-[var(--color-border)]">
-                <div class="p-5 bg-gray-50 border-b border-[var(--color-border)]">
-                    <p class="font-body text-sm text-[var(--color-text-secondary)]">Laporan pengeluaran panitia masjid untuk hewan: <strong>{{ $jemaah->hewanKurban->deskripsi }}</strong></p>
-                </div>
                 <ul class="divide-y divide-[var(--color-border)]">
                     @forelse($pengeluarans as $pengeluaran)
                         <li class="p-5 flex justify-between items-center hover:bg-gray-50 transition">
@@ -128,7 +164,7 @@
                                 </div>
                                 <div>
                                     <p class="font-display font-medium text-[var(--color-secondary)]">{{ $pengeluaran->nama_pengeluaran }}</p>
-                                    <p class="text-xs font-mono text-[var(--color-text-secondary)] mt-1">{{ \Carbon\Carbon::parse($pengeluaran->tanggal)->translatedFormat('d F Y') }}</p>
+                                    <p class="text-xs font-mono text-[var(--color-text-secondary)] mt-1">{{ \Carbon\Carbon::parse($pengeluaran->tanggal)->translatedFormat('d M Y') }} &bull; <span class="font-semibold">{{ $pengeluaran->masjid->name ?? 'Masjid' }} ({{ $pengeluaran->hewanKurban->jenis_hewan ?? 'Hewan' }})</span></p>
                                 </div>
                             </div>
                             <span class="font-mono font-bold text-[var(--color-error)]">- Rp {{ number_format($pengeluaran->nominal, 0, ',', '.') }}</span>

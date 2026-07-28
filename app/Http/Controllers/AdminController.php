@@ -126,6 +126,37 @@ class AdminController extends Controller
         return back()->with('success', 'Data hewan kurban berhasil ditambahkan.');
     }
 
+    public function updateHewan(Request $request, $id)
+    {
+        $request->validate([
+            'jenis_hewan' => 'required|string|max:50',
+            'deskripsi' => 'required|string|max:255',
+            'harga_total' => 'required|numeric|min:0',
+            'kapasitas_slot' => 'required|integer|min:1',
+            'target_per_slot' => 'required|numeric|min:0',
+        ]);
+
+        $user = Auth::user();
+        $masjid = Masjid::where('admin_id', $user->id)->firstOrFail();
+        
+        $hewan = HewanKurban::where('id', $id)->where('masjid_id', $masjid->id)->firstOrFail();
+        
+        // Cek jika slot terisi lebih besar dari kapasitas baru
+        if ($hewan->slot_terisi > $request->kapasitas_slot) {
+            return back()->with('error', 'Kapasitas slot tidak boleh kurang dari jumlah slot yang sudah terisi (' . $hewan->slot_terisi . ').');
+        }
+
+        $hewan->update([
+            'jenis_hewan' => $request->jenis_hewan,
+            'deskripsi' => $request->deskripsi,
+            'harga_total' => $request->harga_total,
+            'kapasitas_slot' => $request->kapasitas_slot,
+            'target_per_slot' => $request->target_per_slot,
+        ]);
+
+        return back()->with('success', 'Data hewan kurban berhasil diperbarui.');
+    }
+
     public function storeSetoran(Request $request)
     {
         $request->validate([
@@ -290,5 +321,31 @@ class AdminController extends Controller
         $rekening->delete();
 
         return back()->with('success', 'Metode pembayaran berhasil dihapus.');
+    }
+
+    public function batalJemaah($id)
+    {
+        $user = Auth::user();
+        $masjid = Masjid::where('admin_id', $user->id)->firstOrFail();
+        
+        $jemaah = Jemaah::where('id', $id)->where('masjid_id', $masjid->id)->firstOrFail();
+
+        // Validasi: Jika sudah menabung, tidak bisa dibatalkan
+        if ($jemaah->total_saldo > 0) {
+            return back()->with('error', 'Jemaah tidak dapat dibatalkan karena sudah mulai menabung. Saldo: Rp ' . number_format($jemaah->total_saldo, 0, ',', '.'));
+        }
+
+        // Kembalikan slot terisi hewan kurban
+        if ($jemaah->hewanKurban) {
+            $hewan = $jemaah->hewanKurban;
+            if ($hewan->slot_terisi > 0) {
+                $hewan->decrement('slot_terisi');
+            }
+        }
+
+        // Hapus Jemaah dari sistem
+        $jemaah->delete();
+
+        return back()->with('success', 'Pendaftaran Jemaah berhasil dibatalkan dan slot dikembalikan.');
     }
 }

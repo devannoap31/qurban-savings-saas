@@ -29,10 +29,12 @@
                 </div>
                 <div class="hidden md:flex items-center gap-6 font-display">
                     <a href="{{ route('superadmin.dashboard') }}" class="text-[var(--color-text-secondary)] hover:text-[var(--color-secondary)] font-medium text-sm transition">Panel Pusat</a>
+                    <a href="{{ route('superadmin.profil') }}" class="text-[var(--color-text-secondary)] hover:text-[var(--color-secondary)] font-medium text-sm transition">Pengaturan Profil</a>
+                    <a href="{{ route('superadmin.arsip') }}" class="text-[var(--color-text-secondary)] hover:text-[var(--color-secondary)] font-medium text-sm transition">Arsip</a>
                     
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="border border-[var(--color-border)] text-[var(--color-text-primary)] px-5 py-2.5 rounded-full text-sm font-medium hover:bg-[var(--color-border)] transition">Keluar</button>
+                        <button type="submit" class="bg-red-50 text-red-600 border border-red-200 px-5 py-2.5 rounded-full text-sm font-bold hover:bg-red-100 hover:text-red-700 transition shadow-sm">Keluar</button>
                     </form>
                 </div>
                 <!-- Mobile Hamburger Button -->
@@ -67,10 +69,12 @@
                 <div class="space-y-6 px-4 py-6 font-display flex flex-col gap-4">
                     
                     <a href="{{ route('superadmin.dashboard') }}" class="text-[var(--color-text-secondary)] hover:text-[var(--color-secondary)] font-medium text-sm transition">Panel Pusat</a>
+                    <a href="{{ route('superadmin.profil') }}" class="text-[var(--color-text-secondary)] hover:text-[var(--color-secondary)] font-medium text-sm transition">Pengaturan Profil</a>
+                    <a href="{{ route('superadmin.arsip') }}" class="text-[var(--color-text-secondary)] hover:text-[var(--color-secondary)] font-medium text-sm transition">Arsip</a>
                     
                     <form class="w-full" method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="w-full text-center border border-[var(--color-border)] text-[var(--color-text-primary)] px-5 py-2.5 rounded-full text-sm font-medium hover:bg-[var(--color-border)] transition">Keluar</button>
+                        <button type="submit" class="w-full text-center bg-red-50 text-red-600 border border-red-200 px-5 py-2.5 rounded-full text-sm font-bold hover:bg-red-100 hover:text-red-700 transition shadow-sm">Keluar</button>
                     </form>
                 
                 </div>

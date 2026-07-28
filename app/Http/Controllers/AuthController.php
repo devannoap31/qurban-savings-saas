@@ -23,7 +23,22 @@ class AuthController extends Controller
         return view('auth.login', ['is_mitra' => false, 'is_superadmin' => true]);
     }
 
-    public function authenticate(Request $request)
+    public function authenticateJemaah(Request $request)
+    {
+        return $this->processLogin($request, 'jemaah', route('jemaah.dashboard'));
+    }
+
+    public function authenticateMitra(Request $request)
+    {
+        return $this->processLogin($request, 'admin', route('admin.dashboard'));
+    }
+
+    public function authenticateSuperadmin(Request $request)
+    {
+        return $this->processLogin($request, 'superadmin', route('superadmin.dashboard'));
+    }
+
+    private function processLogin(Request $request, $expectedRole, $redirectRoute)
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
@@ -31,17 +46,17 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            
             $user = Auth::user();
-            if ($user->role === 'superadmin') {
-                return redirect()->intended(route('superadmin.dashboard'));
-            }
-            if ($user->role === 'admin') {
-                return redirect()->intended(route('admin.dashboard'));
+            if ($user->role === $expectedRole) {
+                $request->session()->regenerate();
+                return redirect()->intended($redirectRoute);
             }
             
-            return redirect()->intended(route('jemaah.dashboard'));
+            // Wrong role for this login page
+            Auth::logout();
+            return back()->withErrors([
+                'email' => 'Role akun Anda tidak diizinkan masuk melalui halaman ini.',
+            ])->onlyInput('email');
         }
 
         return back()->withErrors([

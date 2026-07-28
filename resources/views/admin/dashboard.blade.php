@@ -198,28 +198,66 @@
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($hewanKurbans as $hewan)
-            <x-card class="animate-card">
-                <div class="flex justify-between items-start mb-6">
-                    <div>
-                        <h3 class="font-display font-bold text-xl text-[var(--color-secondary)]">{{ $hewan->deskripsi }}</h3>
-                        <p class="text-sm font-body text-[var(--color-text-secondary)] mt-1">Jenis: {{ $hewan->jenis_hewan }}</p>
+            <x-card class="animate-card" x-data="{ editMode: false }">
+                <div x-show="!editMode">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <h3 class="font-display font-bold text-xl text-[var(--color-secondary)]">{{ $hewan->deskripsi }}</h3>
+                            <p class="text-sm font-body text-[var(--color-text-secondary)] mt-1">Jenis: {{ $hewan->jenis_hewan }}</p>
+                        </div>
+                        <span class="bg-[#e3e8e0] px-3 py-1 rounded-full text-xs font-mono font-bold text-[var(--color-accent)]">{{ $hewan->slot_terisi }}/{{ $hewan->kapasitas_slot }} Slot</span>
                     </div>
-                    <span class="bg-[#e3e8e0] px-3 py-1 rounded-full text-xs font-mono font-bold text-[var(--color-accent)]">{{ $hewan->slot_terisi }}/{{ $hewan->kapasitas_slot }} Slot</span>
+                    
+                    <div class="space-y-4 font-body border-t border-[var(--color-border)] pt-5">
+                        <div class="flex justify-between items-end">
+                            <span class="text-sm text-[var(--color-text-secondary)]">Harga (Inc. Ops):</span>
+                            <span class="font-mono font-semibold text-[var(--color-secondary)]">Rp {{ number_format($hewan->harga_total, 0, ',', '.') }}</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <span class="text-sm text-[var(--color-text-secondary)]">Target Per Slot:</span>
+                            <span class="font-mono font-semibold text-[var(--color-secondary)]">Rp {{ number_format($hewan->target_per_slot, 0, ',', '.') }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <x-button variant="outline" class="w-full justify-center" @click="editMode = true">Edit Data</x-button>
+                    </div>
                 </div>
-                
-                <div class="space-y-4 font-body border-t border-[var(--color-border)] pt-5">
-                    <div class="flex justify-between items-end">
-                        <span class="text-sm text-[var(--color-text-secondary)]">Harga (Inc. Ops):</span>
-                        <span class="font-mono font-semibold text-[var(--color-secondary)]">Rp {{ number_format($hewan->harga_total, 0, ',', '.') }}</span>
-                    </div>
-                    <div class="flex justify-between items-end">
-                        <span class="text-sm text-[var(--color-text-secondary)]">Target Per Slot:</span>
-                        <span class="font-mono font-semibold text-[var(--color-secondary)]">Rp {{ number_format($hewan->target_per_slot, 0, ',', '.') }}</span>
-                    </div>
-                </div>
-                
-                <div class="mt-8">
-                    <x-button variant="outline" class="w-full" onclick="alert('Edit hewan kurban.')">Edit Data</x-button>
+
+                <!-- Form Edit -->
+                <div x-show="editMode" style="display: none;" class="mt-2">
+                    <form action="{{ route('admin.hewan.update', $hewan->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="space-y-3 mb-4">
+                            <div>
+                                <label class="block text-xs font-mono text-[var(--color-text-secondary)] mb-1">Jenis Hewan</label>
+                                <input type="text" name="jenis_hewan" value="{{ $hewan->jenis_hewan }}" required class="w-full px-3 py-2 border rounded text-sm focus:ring-[var(--color-accent)]">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-mono text-[var(--color-text-secondary)] mb-1">Deskripsi Paket</label>
+                                <input type="text" name="deskripsi" value="{{ $hewan->deskripsi }}" required class="w-full px-3 py-2 border rounded text-sm focus:ring-[var(--color-accent)]">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-mono text-[var(--color-text-secondary)] mb-1">Harga Total (Rp)</label>
+                                <input type="number" name="harga_total" value="{{ $hewan->harga_total }}" required class="w-full px-3 py-2 border rounded text-sm focus:ring-[var(--color-accent)]">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-xs font-mono text-[var(--color-text-secondary)] mb-1">Kapasitas Slot</label>
+                                    <input type="number" name="kapasitas_slot" value="{{ $hewan->kapasitas_slot }}" required min="{{ $hewan->slot_terisi }}" class="w-full px-3 py-2 border rounded text-sm focus:ring-[var(--color-accent)]">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-mono text-[var(--color-text-secondary)] mb-1">Target /Slot</label>
+                                    <input type="number" name="target_per_slot" value="{{ $hewan->target_per_slot }}" required class="w-full px-3 py-2 border rounded text-sm focus:ring-[var(--color-accent)]">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <x-button type="submit" variant="primary" class="w-full justify-center py-2 text-sm">Simpan</x-button>
+                            <x-button type="button" variant="outline" class="w-full justify-center py-2 text-sm" @click="editMode = false">Batal</x-button>
+                        </div>
+                    </form>
                 </div>
             </x-card>
             @endforeach
@@ -255,8 +293,17 @@
                                 <span class="bg-[#e3e8e0] text-[var(--color-accent)] px-3 py-1 rounded-full text-xs font-mono font-bold">{{ $j->status }}</span>
                             </td>
                             <td class="py-5 px-6 text-sm flex gap-4">
-                                <button class="font-mono text-[var(--color-accent)] font-semibold hover:underline" onclick="alert('Detail jemaah.')">DETAIL</button>
-                                <button class="font-mono text-[var(--color-error)] font-semibold hover:underline" onclick="alert('Batal')">BATAL</button>
+                                <button class="font-mono text-[var(--color-accent)] font-semibold hover:underline" @click="alert('Detail Jemaah:\nNama: {{ $j->nama_jemaah }}\nPaket: {{ $j->hewanKurban->deskripsi ?? '-' }}\nSaldo: Rp {{ number_format($j->total_saldo, 0, ',', '.') }}\nStatus: {{ $j->status }}')">DETAIL</button>
+                                
+                                @if($j->total_saldo == 0)
+                                    <form action="{{ route('admin.jemaah.batal', $j->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan Jemaah ini? Slot kurban akan dikembalikan.')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="font-mono text-[var(--color-error)] font-semibold hover:underline">BATAL</button>
+                                    </form>
+                                @else
+                                    <button type="button" class="font-mono text-gray-400 font-semibold cursor-not-allowed" onclick="alert('Jemaah tidak bisa dibatalkan karena sudah mulai menabung.')">BATAL</button>
+                                @endif
                             </td>
                         </tr>
                         @empty

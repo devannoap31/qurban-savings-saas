@@ -17,11 +17,15 @@ class PublicController extends Controller
     {
         $search = $request->input('q');
         
-        $masjids = Masjid::with('hewanKurbans');
+        $masjids = Masjid::with('hewanKurbans')->whereHas('admin', function($query) {
+            $query->where('status', 'active');
+        });
         
         if ($search) {
-            $masjids = $masjids->where('name', 'like', "%{$search}%")
-                               ->orWhere('city', 'like', "%{$search}%");
+            $masjids = $masjids->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('city', 'like', "%{$search}%");
+            });
         }
         
         // Paginate 10 per page
@@ -43,13 +47,17 @@ class PublicController extends Controller
 
     public function showMasjid($id)
     {
-        $masjid = Masjid::with(['hewanKurbans', 'rekenings'])->findOrFail($id);
+        $masjid = Masjid::with(['hewanKurbans', 'rekenings'])->whereHas('admin', function($q) {
+            $q->where('status', 'active');
+        })->findOrFail($id);
         return view('public.masjid-show', compact('masjid'));
     }
 
     public function daftarJemaah($id)
     {
-        $masjid = Masjid::with(['hewanKurbans', 'rekenings'])->findOrFail($id);
+        $masjid = Masjid::with(['hewanKurbans', 'rekenings'])->whereHas('admin', function($q) {
+            $q->where('status', 'active');
+        })->findOrFail($id);
         return view('public.daftar-jemaah', compact('masjid'));
     }
 
@@ -95,7 +103,9 @@ class PublicController extends Controller
         // Login user
         \Illuminate\Support\Facades\Auth::login($user);
 
-        return redirect()->route('jemaah.dashboard')->with('success', 'Pendaftaran berhasil. Selamat datang di Sylvan Kurban.');
+        event(new \Illuminate\Auth\Events\Registered($user));
+
+        return redirect()->route('jemaah.dashboard')->with('success', 'Pendaftaran berhasil. Silakan cek email Anda untuk verifikasi.');
     }
 
     public function mitra()
@@ -106,6 +116,91 @@ class PublicController extends Controller
     public function register()
     {
         return view('admin.register');
+    }
+
+    public function storeMitra(Request $request)
+    {
+        $request->validate([
+            'nama_pengurus' => 'required|string|max:255',
+            'nama_masjid' => 'required|string|max:255',
+            'alamat' => 'required|string',
+            'email' => 'required|email:rfc,dns|unique:users,email',
+            'password' => 'required|min:8|confirmed',
+        ], [
+            'email.email' => 'Format email tidak valid atau domain email tidak ditemukan.',
+            'email.unique' => 'Email ini sudah terdaftar sebelumnya.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
+            'password.min' => 'Kata sandi minimal 8 karakter.',
+        ]);
+
+        $admin = \App\Models\User::create([
+            'name' => $request->nama_pengurus,
+            'email' => $request->email,
+            'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+            'role' => 'admin',
+            'status' => 'pending'
+        ]);
+
+        \App\Models\Masjid::create([
+            'admin_id' => $admin->id,
+            'name' => $request->nama_masjid,
+            'address' => $request->alamat,
+        ]);
+
+        event(new \Illuminate\Auth\Events\Registered($admin));
+        
+        \Illuminate\Support\Facades\Auth::login($admin);
+
+        return redirect()->route('verification.notice');
+    }
+
+    public function cancelRegistration()
+    {
+        $user = \Illuminate\Support\Facades\Auth::user();
+        
+        // Only allow cancel if user is authenticated and hasn't verified email
+        if ($user && !$user->hasVerifiedEmail()) {
+            if ($user->role === 'admin') {
+                // Force delete masjid (if soft deletes, or just delete)
+                \App\Models\Masjid::where('admin_id', $user->id)->forceDelete();
+                
+                // Force delete user
+                $user->forceDelete();
+                
+                \Illuminate\Support\Facades\Auth::logout();
+                
+                return redirect()->route('mitra.register')->with('success', 'Pendaftaran sebelumnya dibatalkan. Silakan daftar ulang dengan email baru.');
+            } elseif ($user->role === 'jemaah') {
+                $jemaah = \App\Models\Jemaah::where('user_id', $user->id)->first();
+                $masjidId = $jemaah ? $jemaah->masjid_id : null;
+                $hewanId = $jemaah ? $jemaah->hewan_kurban_id : null;
+                
+                if ($hewanId) {
+                    $hewan = \App\Models\HewanKurban::find($hewanId);
+                    if ($hewan) {
+                        $hewan->slot_terisi -= 1;
+                        $hewan->save();
+                    }
+                }
+                
+                if ($jemaah) {
+                    $jemaah->forceDelete();
+                }
+                
+                $user->forceDelete();
+                \Illuminate\Support\Facades\Auth::logout();
+                
+                if ($masjidId) {
+                    return redirect()->route('masjids.daftar', $masjidId)->with('success', 'Pendaftaran sebelumnya dibatalkan. Silakan daftar ulang.');
+                }
+                return redirect('/')->with('success', 'Pendaftaran dibatalkan.');
+            }
+        }
+        
+        if ($user && $user->role === 'admin') {
+            return redirect('/admin/dashboard');
+        }
+        return redirect('/jemaah/dashboard');
     }
 
     public function tentang()

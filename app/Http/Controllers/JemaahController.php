@@ -14,20 +14,24 @@ class JemaahController extends Controller
     {
         $user = Auth::user();
         
-        // Jemaah login dan melihat tabungannya
-        $jemaah = Jemaah::with(['masjid', 'hewanKurban'])->where('user_id', $user->id)->first();
+        // Jemaah login dan melihat tabungannya di berbagai masjid
+        $jemaahs = Jemaah::with(['masjid.rekenings', 'hewanKurban'])->where('user_id', $user->id)->get();
         
-        if (!$jemaah) {
+        if ($jemaahs->isEmpty()) {
             return "Anda belum terdaftar dalam tabungan kurban di masjid manapun.";
         }
 
-        $setorans = Setoran::where('jemaah_id', $jemaah->id)->orderBy('tanggal_setor', 'desc')->get();
+        $jemaahIds = $jemaahs->pluck('id');
+        $hewanKurbanIds = $jemaahs->pluck('hewan_kurban_id');
+
+        $setorans = Setoran::with('masjid')->whereIn('jemaah_id', $jemaahIds)->orderBy('tanggal_setor', 'desc')->get();
         
         // Transparansi pengeluaran terkait hewan kurban yang dipilih jemaah
-        $pengeluarans = Pengeluaran::where('hewan_kurban_id', $jemaah->hewan_kurban_id)
+        $pengeluarans = Pengeluaran::with(['masjid', 'hewanKurban'])
+                                   ->whereIn('hewan_kurban_id', $hewanKurbanIds)
                                    ->orderBy('tanggal', 'desc')
                                    ->get();
                                    
-        return view('jemaah.dashboard', compact('jemaah', 'setorans', 'pengeluarans'));
+        return view('jemaah.dashboard', compact('jemaahs', 'setorans', 'pengeluarans'));
     }
 }
