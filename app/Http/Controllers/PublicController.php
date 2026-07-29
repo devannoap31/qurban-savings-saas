@@ -63,12 +63,20 @@ class PublicController extends Controller
 
     public function storeJemaah(Request $request, $id)
     {
-        $request->validate([
-            'nama_lengkap' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'hewan_kurban_id' => 'required|exists:hewan_kurbans,id'
-        ]);
+        $isLoggedIn = \Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->role === 'jemaah';
+
+        if (!$isLoggedIn) {
+            $request->validate([
+                'nama_lengkap' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:8|confirmed',
+                'hewan_kurban_id' => 'required|exists:hewan_kurbans,id'
+            ]);
+        } else {
+            $request->validate([
+                'hewan_kurban_id' => 'required|exists:hewan_kurbans,id'
+            ]);
+        }
 
         $masjid = Masjid::findOrFail($id);
         $hewanKurban = HewanKurban::where('id', $request->hewan_kurban_id)->where('masjid_id', $masjid->id)->firstOrFail();
@@ -78,20 +86,27 @@ class PublicController extends Controller
             return back()->with('error', 'Maaf, slot untuk hewan kurban ini sudah penuh.')->withInput();
         }
 
-        // Create User
-        $user = \App\Models\User::create([
-            'name' => $request->nama_lengkap,
-            'email' => $request->email,
-            'password' => \Illuminate\Support\Facades\Hash::make($request->password),
-            'role' => 'jemaah',
-        ]);
+        if (!$isLoggedIn) {
+            // Create User
+            $user = \App\Models\User::create([
+                'name' => $request->nama_lengkap,
+                'email' => $request->email,
+                'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+                'role' => 'jemaah',
+            ]);
+            
+            $namaJemaah = $request->nama_lengkap;
+        } else {
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $namaJemaah = $user->name;
+        }
 
         // Create Jemaah profile
         \App\Models\Jemaah::create([
             'user_id' => $user->id,
             'masjid_id' => $masjid->id,
             'hewan_kurban_id' => $hewanKurban->id,
-            'nama_jemaah' => $request->nama_lengkap,
+            'nama_jemaah' => $namaJemaah,
             'total_saldo' => 0,
             'status' => 'Belum Mulai'
         ]);
@@ -100,12 +115,14 @@ class PublicController extends Controller
         $hewanKurban->slot_terisi += 1;
         $hewanKurban->save();
 
-        // Login user
-        \Illuminate\Support\Facades\Auth::login($user);
+        if (!$isLoggedIn) {
+            // Login user
+            \Illuminate\Support\Facades\Auth::login($user);
+            event(new \Illuminate\Auth\Events\Registered($user));
+            return redirect()->route('jemaah.dashboard')->with('success', 'Pendaftaran berhasil. Silakan cek email Anda untuk verifikasi.');
+        }
 
-        event(new \Illuminate\Auth\Events\Registered($user));
-
-        return redirect()->route('jemaah.dashboard')->with('success', 'Pendaftaran berhasil. Silakan cek email Anda untuk verifikasi.');
+        return redirect()->route('jemaah.dashboard')->with('success', 'Berhasil menambahkan tabungan kurban baru!');
     }
 
     public function mitra()

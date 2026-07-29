@@ -46,9 +46,9 @@
                 <tbody class="divide-y divide-yellow-100 font-body">
                     @foreach($pending_admins as $admin)
                     <tr class="hover:bg-yellow-50/50 transition">
-                        <td class="py-5 px-6 font-display font-medium text-gray-800">{{ $admin->name }}</td>
-                        <td class="py-5 px-6 text-sm text-gray-600">{{ $admin->email }}</td>
-                        <td class="py-5 px-6 text-sm font-bold text-gray-800">{{ $admin->masjid->name ?? 'Belum Membuat Masjid' }}</td>
+                        <td class="py-5 px-6 font-display font-medium text-[var(--color-text-primary)]">{{ $admin->name }}</td>
+                        <td class="py-5 px-6 text-sm text-[var(--color-text-secondary)]">{{ $admin->email }}</td>
+                        <td class="py-5 px-6 text-sm font-bold text-[var(--color-text-primary)]">{{ $admin->masjid->name ?? 'Belum Membuat Masjid' }}</td>
                         <td class="py-5 px-6 text-sm flex gap-4">
                             <form action="{{ route('superadmin.status', $admin->id) }}" method="POST">
                                 @csrf @method('PUT')
@@ -73,15 +73,15 @@
         
         <form x-data="{ search: '{{ request('q') }}' }" class="flex flex-wrap items-center gap-3">
             <div class="relative">
-                <input type="text" name="q" x-model="search" @input.debounce.500ms="$el.form.submit()" placeholder="Cari nama, email, masjid..." class="pl-9 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)] w-full md:w-64 font-body bg-white shadow-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 absolute left-3 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                <input type="text" name="q" x-model="search" @input.debounce.500ms="$el.form.submit()" placeholder="Cari nama, email, masjid..." class="pl-9 pr-4 py-2 border border-[var(--color-border)] rounded-[8px] text-sm focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)] w-full md:w-64 font-body bg-[var(--color-surface)] shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[var(--color-text-secondary)] absolute left-3 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
             </div>
-            <select name="status" onchange="this.form.submit()" class="border border-gray-300 rounded-md py-2 px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)] font-body bg-white shadow-sm">
+            <select name="status" onchange="this.form.submit()" class="border border-[var(--color-border)] rounded-[8px] py-2 px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)] font-body bg-[var(--color-surface)] shadow-sm">
                 <option value="all" {{ request('status') == 'all' ? 'selected' : '' }}>Semua Status</option>
                 <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Aktif</option>
                 <option value="suspended" {{ request('status') == 'suspended' ? 'selected' : '' }}>Suspended</option>
             </select>
-            <select name="per_page" onchange="this.form.submit()" class="border border-gray-300 rounded-md py-2 px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)] font-body bg-white">
+            <select name="per_page" onchange="this.form.submit()" class="border border-[var(--color-border)] rounded-[8px] py-2 px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)] font-body bg-[var(--color-surface)]">
                 <option value="5" {{ request('per_page') == '5' ? 'selected' : '' }}>5 baris</option>
                 <option value="10" {{ request('per_page') == '10' ? 'selected' : '' }}>10 baris</option>
                 <option value="25" {{ request('per_page') == '25' ? 'selected' : '' }}>25 baris</option>
@@ -126,15 +126,15 @@
                 </thead>
                 <tbody class="divide-y divide-[var(--color-border)] font-body">
                     @forelse($active_admins as $admin)
-                    <tr class="hover:bg-gray-50 transition">
+                    <tr class="hover:bg-[var(--color-background)] transition">
                         <td class="py-5 px-6 font-display font-medium text-[var(--color-secondary)]">{{ $admin->name }}</td>
                         <td class="py-5 px-6 text-sm text-[var(--color-text-secondary)]">{{ $admin->email }}</td>
                         <td class="py-5 px-6 text-sm font-bold text-[var(--color-secondary)]">{{ $admin->masjid->name ?? 'Belum Membuat Masjid' }}</td>
                         <td class="py-5 px-6 text-sm">
                             @if($admin->status == 'active')
-                                <span class="px-2 py-1 bg-green-100 text-green-700 rounded-md text-xs font-mono">Aktif</span>
+                                <span class="px-2 py-1 bg-green-100 text-green-700 rounded-[8px] text-xs font-mono">Aktif</span>
                             @else
-                                <span class="px-2 py-1 bg-red-100 text-red-700 rounded-md text-xs font-mono">Suspended</span>
+                                <span class="px-2 py-1 bg-red-100 text-red-700 rounded-[8px] text-xs font-mono">Suspended</span>
                             @endif
                         </td>
                         <td class="py-5 px-6 text-sm relative">
@@ -143,7 +143,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                             </button>
                             
-                            <div x-show="openDropdown === {{ $admin->id }}" style="display: none;" class="absolute right-6 top-10 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10 py-1">
+                            <div x-show="openDropdown === {{ $admin->id }}" style="display: none;" class="absolute right-6 top-10 w-48 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[8px] shadow-lg z-10 py-1">
                                 @if($admin->status == 'active')
                                 <form action="{{ route('superadmin.status', $admin->id) }}" method="POST">
                                     @csrf @method('PUT')

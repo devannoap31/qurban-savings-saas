@@ -34,4 +34,20 @@ class JemaahController extends Controller
                                    
         return view('jemaah.dashboard', compact('jemaahs', 'setorans', 'pengeluarans'));
     }
+
+    public function cetakLaporan($id)
+    {
+        $user = Auth::user();
+        
+        // Pastikan jemaah hanya bisa mencetak laporan miliknya sendiri
+        $jemaah = Jemaah::with(['masjid', 'hewanKurban'])->where('id', $id)->where('user_id', $user->id)->firstOrFail();
+        
+        $setorans = Setoran::where('jemaah_id', $jemaah->id)->orderBy('tanggal_setor', 'asc')->get();
+        
+        $pengeluarans = Pengeluaran::where('hewan_kurban_id', $jemaah->hewan_kurban_id)->orderBy('tanggal', 'asc')->get();
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('jemaah.laporan-pdf', compact('jemaah', 'setorans', 'pengeluarans'));
+        
+        return $pdf->download('laporan-tabungan-kurban-' . $jemaah->id . '.pdf');
+    }
 }

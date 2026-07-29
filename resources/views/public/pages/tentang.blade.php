@@ -30,7 +30,7 @@
             <li><strong>Organik:</strong> Kami terus bertumbuh perlahan menyesuaikan dengan kebutuhan masjid-masjid di daerah, membangun lingkungan "botanikal" yang segar secara UI maupun fungsi.</li>
         </ul>
         
-        <div class="bg-[var(--color-surface)] border border-[var(--color-border)] p-8 rounded-xl text-center mt-12">
+        <div class="bg-[var(--color-surface)] border border-[var(--color-border)] p-8 rounded-[8px] text-center mt-12">
             <h3 class="font-display text-xl text-[var(--color-secondary)] mb-4">Bergabung Bersama Kami</h3>
             <p class="text-[var(--color-text-secondary)] mb-6 text-base">Apakah Anda pengurus masjid? Mari daftarkan masjid Anda dan permudah jemaah menabung kurban.</p>
             <a href="{{ route('mitra.register') }}" class="inline-block bg-[var(--color-secondary)] text-[var(--color-primary)] px-8 py-3 rounded-full text-sm font-display font-medium hover:bg-[var(--color-accent)] transition shadow-sm">

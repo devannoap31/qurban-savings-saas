@@ -21,7 +21,7 @@
                 Pendaftaran akun {{ auth()->user()->role === 'admin' ? 'Mitra' : 'Jemaah' }} Anda telah kami terima. Kami telah mengirimkan email verifikasi ke alamat email Anda.
             </p>
             
-            <div class="mt-6 bg-yellow-50 border border-yellow-200 rounded-md p-4 text-left">
+            <div class="mt-6 bg-yellow-50 border border-yellow-200 rounded-[8px] p-4 text-left">
                 <h3 class="text-sm font-bold text-yellow-800 font-mono mb-2">📌 PERHATIAN PENTING:</h3>
                 <ul class="text-sm font-body text-yellow-700 list-disc pl-5 space-y-1">
                     <li>Segera buka aplikasi <strong>Gmail / Yahoo</strong> Anda.</li>
@@ -43,8 +43,8 @@
             }, 1000);
         ">
             <!-- Alert Info -->
-            <p class="text-xs text-gray-500 font-body mb-4" x-show="!canClick">
-                Tombol di bawah ini akan aktif dalam <span class="font-bold text-gray-700 font-mono" x-text="countdown + ' detik'"></span>.
+            <p class="text-xs text-[var(--color-text-secondary)] font-body mb-4" x-show="!canClick">
+                Tombol di bawah ini akan aktif dalam <span class="font-bold text-[var(--color-text-primary)] font-mono" x-text="countdown + ' detik'"></span>.
             </p>
 
             <form method="POST" action="{{ route('mitra.register.cancel') }}">
@@ -62,7 +62,7 @@
                     @csrf
                     <button type="submit" 
                             :disabled="!canClick"
-                            :class="canClick ? 'text-[var(--color-text-secondary)] hover:text-[var(--color-secondary)] underline cursor-pointer' : 'text-gray-400 cursor-not-allowed'"
+                            :class="canClick ? 'text-[var(--color-text-secondary)] hover:text-[var(--color-secondary)] underline cursor-pointer' : 'text-[var(--color-text-secondary)] cursor-not-allowed'"
                             class="text-xs font-body transition-colors">
                         Belum menerima email? Kirim ulang <span x-show="!canClick" x-text="'(' + countdown + 's)'"></span>
                     </button>

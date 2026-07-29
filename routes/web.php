@@ -92,11 +92,14 @@ Route::middleware('auth')->group(function () {
         Route::put('/masjid/rekening/{id}', [AdminController::class, 'updateRekening'])->name('masjid.rekening.update');
         Route::delete('/masjid/rekening/{id}', [AdminController::class, 'destroyRekening'])->name('masjid.rekening.destroy');
         Route::delete('/jemaah/{id}/batal', [AdminController::class, 'batalJemaah'])->name('jemaah.batal');
+        Route::post('/jemaah', [AdminController::class, 'storeJemaah'])->name('jemaah.store');
+        Route::get('/cetak-laporan', [AdminController::class, 'cetakLaporan'])->name('cetak-laporan');
     });
 
     // Jemaah Routes
     Route::middleware(['can:jemaah', 'verified'])->prefix('jemaah')->name('jemaah.')->group(function () {
         Route::get('/dashboard', [JemaahController::class, 'dashboard'])->name('dashboard');
+        Route::get('/cetak/{id}', [JemaahController::class, 'cetakLaporan'])->name('cetak-laporan');
     });
 
 });

@@ -22,23 +22,23 @@
             <div class="space-y-5">
                 <div>
                     <label for="email" class="block text-xs font-mono font-semibold text-[var(--color-text-secondary)] mb-1 uppercase">Alamat Email</label>
-                    <input id="email" name="email" type="email" value="{{ $email ?? old('email') }}" required readonly class="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-[4px] bg-gray-50 text-[var(--color-text-secondary)] focus:outline-none font-body sm:text-base transition-colors cursor-not-allowed">
+                    <input id="email" name="email" type="email" value="{{ $email ?? old('email') }}" required readonly class="appearance-none block w-full px-4 py-3 border border-[var(--color-border)] rounded-[4px] bg-[var(--color-background)] text-[var(--color-text-secondary)] focus:outline-none font-body sm:text-base transition-colors cursor-not-allowed">
                     @error('email') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
                 
                 <div>
                     <label for="password" class="block text-xs font-mono font-semibold text-[var(--color-text-secondary)] mb-1 uppercase">Kata Sandi Baru</label>
-                    <input id="password" name="password" :type="showPassword ? 'text' : 'password'" required class="appearance-none block w-full px-4 py-3 border @error('password') border-red-500 @else border-gray-300 @enderror rounded-[4px] bg-[var(--color-primary)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent font-body sm:text-base transition-colors">
+                    <input id="password" name="password" :type="showPassword ? 'text' : 'password'" required class="appearance-none block w-full px-4 py-3 border @error('password') border-red-500 @else border-[var(--color-border)] @enderror rounded-[4px] bg-[var(--color-primary)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent font-body sm:text-base transition-colors">
                     @error('password') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
                 
                 <div>
                     <label for="password_confirmation" class="block text-xs font-mono font-semibold text-[var(--color-text-secondary)] mb-1 uppercase">Konfirmasi Kata Sandi Baru</label>
-                    <input id="password_confirmation" name="password_confirmation" :type="showPassword ? 'text' : 'password'" required class="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-[4px] bg-[var(--color-primary)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent font-body sm:text-base transition-colors">
+                    <input id="password_confirmation" name="password_confirmation" :type="showPassword ? 'text' : 'password'" required class="appearance-none block w-full px-4 py-3 border border-[var(--color-border)] rounded-[4px] bg-[var(--color-primary)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent font-body sm:text-base transition-colors">
                 </div>
 
                 <div class="flex items-center mt-2">
-                    <input id="show_password" type="checkbox" x-model="showPassword" class="h-4 w-4 text-[var(--color-accent)] focus:ring-[var(--color-accent)] border-gray-300 rounded">
+                    <input id="show_password" type="checkbox" x-model="showPassword" class="h-4 w-4 text-[var(--color-accent)] focus:ring-[var(--color-accent)] border-[var(--color-border)] rounded">
                     <label for="show_password" class="ml-2 block text-sm font-body text-[var(--color-text-secondary)]">Tampilkan kata sandi</label>
                 </div>
             </div>

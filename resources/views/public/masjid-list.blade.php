@@ -38,7 +38,7 @@
     @if($masjids->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             @foreach($masjids as $masjid)
-                <div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl overflow-hidden hover:shadow-lg transition-all group flex flex-col h-full">
+                <div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[8px] overflow-hidden hover:shadow-lg transition-all group flex flex-col h-full">
                     <a href="{{ route('masjids.show', $masjid->id) }}" class="aspect-video w-full bg-gray-200 overflow-hidden relative block">
                         @if($masjid->gambar)
                             <img src="{{ Str::startsWith($masjid->gambar, 'http') ? $masjid->gambar : Storage::url($masjid->gambar) }}" alt="{{ $masjid->name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
@@ -57,7 +57,7 @@
                         <a href="{{ route('masjids.show', $masjid->id) }}" class="block">
                             <h3 class="text-xl font-display font-medium text-[var(--color-text-primary)] mb-2 hover:text-[var(--color-secondary)] transition">{{ $masjid->name }}</h3>
                         </a>
-                        <p class="text-gray-500 font-body text-sm">{{ Str::limit($masjid->address, 60) }}</p>
+                        <p class="text-[var(--color-text-secondary)] font-body text-sm">{{ Str::limit($masjid->address, 60) }}</p>
                     
                         <div class="mt-auto pt-5 border-t border-[var(--color-border)]">
                             <h4 class="font-mono text-xs text-[var(--color-text-secondary)] uppercase tracking-wider font-semibold mb-3">Slot Kurban Tersedia:</h4>

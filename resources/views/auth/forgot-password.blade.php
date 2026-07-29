@@ -26,7 +26,7 @@
             <div class="space-y-5">
                 <div>
                     <label for="email" class="block text-xs font-mono font-semibold text-[var(--color-text-secondary)] mb-1 uppercase">Alamat Email Terdaftar</label>
-                    <input id="email" name="email" type="email" value="{{ old('email') }}" required autofocus class="appearance-none block w-full px-4 py-3 border @error('email') border-red-500 @else border-gray-300 @enderror rounded-[4px] bg-[var(--color-primary)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent font-body sm:text-base transition-colors">
+                    <input id="email" name="email" type="email" value="{{ old('email') }}" required autofocus class="appearance-none block w-full px-4 py-3 border @error('email') border-red-500 @else border-[var(--color-border)] @enderror rounded-[4px] bg-[var(--color-primary)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent font-body sm:text-base transition-colors">
                     @error('email') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
             </div>

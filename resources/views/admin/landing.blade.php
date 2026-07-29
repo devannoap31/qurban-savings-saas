@@ -40,7 +40,7 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <x-card class="animate-card bg-white">
+            <x-card class="animate-card bg-[var(--color-surface)]">
                 <div class="w-12 h-12 bg-[#e3e8e0] text-[var(--color-accent)] rounded-full flex items-center justify-center mb-6">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -50,7 +50,7 @@
                 <p class="font-body text-[var(--color-text-secondary)] text-sm">Arsitektur Multi-Tenant memastikan data jemaah, hewan, dan keuangan masjid Anda tidak bercampur dengan masjid lain.</p>
             </x-card>
             
-            <x-card class="animate-card bg-white">
+            <x-card class="animate-card bg-[var(--color-surface)]">
                 <div class="w-12 h-12 bg-[#e3e8e0] text-[var(--color-accent)] rounded-full flex items-center justify-center mb-6">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -60,7 +60,7 @@
                 <p class="font-body text-[var(--color-text-secondary)] text-sm">Atur kapasitas sapi atau kambing dengan mudah. Sistem otomatis mengkalkulasi harga per slot (termasuk biaya operasional).</p>
             </x-card>
             
-            <x-card class="animate-card bg-white">
+            <x-card class="animate-card bg-[var(--color-surface)]">
                 <div class="w-12 h-12 bg-[#e3e8e0] text-[var(--color-accent)] rounded-full flex items-center justify-center mb-6">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
@@ -70,7 +70,7 @@
                 <p class="font-body text-[var(--color-text-secondary)] text-sm">Catat setoran cicilan dari jemaah tanpa buku catatan manual. Total saldo terhitung otomatis secara realtime.</p>
             </x-card>
 
-            <x-card class="animate-card bg-white">
+            <x-card class="animate-card bg-[var(--color-surface)]">
                 <div class="w-12 h-12 bg-[#e3e8e0] text-[var(--color-accent)] rounded-full flex items-center justify-center mb-6">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -150,15 +150,15 @@
         </div>
         
         <div class="space-y-4 animate-hero">
-            <div class="bg-white rounded-xl border border-[var(--color-border)] p-6 hover:border-[var(--color-accent)] transition-colors">
+            <div class="bg-[var(--color-surface)] rounded-[8px] border border-[var(--color-border)] p-6 hover:border-[var(--color-accent)] transition-colors">
                 <h3 class="text-lg font-display font-bold text-[var(--color-secondary)] mb-2">Apakah data jemaah masjid saya aman dan tidak bocor ke masjid lain?</h3>
                 <p class="font-body text-[var(--color-text-secondary)]">Sangat aman. Sistem kami dirancang menggunakan arsitektur <em>Multi-Tenant</em>. Artinya, setiap data jemaah, slot kurban, dan setoran benar-benar diisolasi. Admin masjid lain tidak akan pernah bisa mengakses atau melihat data jemaah Anda.</p>
             </div>
-            <div class="bg-white rounded-xl border border-[var(--color-border)] p-6 hover:border-[var(--color-accent)] transition-colors">
+            <div class="bg-[var(--color-surface)] rounded-[8px] border border-[var(--color-border)] p-6 hover:border-[var(--color-accent)] transition-colors">
                 <h3 class="text-lg font-display font-bold text-[var(--color-secondary)] mb-2">Bagaimana cara uang setoran masuk?</h3>
                 <p class="font-body text-[var(--color-text-secondary)]">Sistem ini murni sebagai pencatatan dan pengelolaan (buku besar digital). Jemaah akan tetap mentransfer dana secara langsung ke rekening resmi masjid Anda. Setelah itu, admin Anda hanya perlu memverifikasi dan menginput nominalnya di dasbor.</p>
             </div>
-            <div class="bg-white rounded-xl border border-[var(--color-border)] p-6 hover:border-[var(--color-accent)] transition-colors">
+            <div class="bg-[var(--color-surface)] rounded-[8px] border border-[var(--color-border)] p-6 hover:border-[var(--color-accent)] transition-colors">
                 <h3 class="text-lg font-display font-bold text-[var(--color-secondary)] mb-2">Apakah aplikasi ini berbayar?</h3>
                 <p class="font-body text-[var(--color-text-secondary)]">Sylvan Kurban disediakan sebagai bentuk pengabdian untuk umat. Pengurus masjid dapat menggunakan layanan pencatatan ini secara gratis tanpa ada potongan dana kurban sepeser pun.</p>
             </div>

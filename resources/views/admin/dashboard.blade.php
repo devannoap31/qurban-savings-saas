@@ -3,27 +3,35 @@
 @section('title', 'Dashboard Admin - Sylvan Kurban')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" x-data="{ tab: 'overview' }">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" x-data="{ tab: 'overview', showTambahJemaahModal: false }">
     
-    <div class="mb-10 animate-hero">
-        <h1 class="text-4xl font-display font-medium text-[var(--color-secondary)]">Dashboard Pengurus</h1>
-        <p class="text-[var(--color-text-secondary)] font-body mt-2">Masjid: <span class="font-bold text-[var(--color-secondary)]">{{ $masjid->name ?? 'Belum Diatur' }}</span></p>
+    <div class="mb-10 animate-hero flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <div>
+            <h1 class="text-4xl font-display font-medium text-[var(--color-secondary)]">Dashboard Pengurus</h1>
+            <p class="text-[var(--color-text-secondary)] font-body mt-2">Masjid: <span class="font-bold text-[var(--color-secondary)]">{{ $masjid->name ?? 'Belum Diatur' }}</span></p>
+        </div>
+        <div class="flex items-center">
+            <a href="{{ route('admin.cetak-laporan') }}" class="inline-flex items-center text-sm font-mono font-bold text-[var(--color-secondary)] bg-[var(--color-surface)] hover:bg-[#e3e8e0] px-4 py-2.5 rounded-[8px] border border-[var(--color-border)] shadow-sm transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                Cetak Laporan Kurban (PDF)
+            </a>
+        </div>
     </div>
 
     @if(session('success'))
-        <div class="bg-[var(--color-success)] text-white p-4 rounded-md mb-6 font-body animate-hero">
+        <div class="bg-[var(--color-success)] text-white p-4 rounded-[8px] mb-6 font-body animate-hero">
             {{ session('success') }}
         </div>
     @endif
     
     @if(session('error'))
-        <div class="bg-[var(--color-error)] text-white p-4 rounded-md mb-6 font-body animate-hero">
+        <div class="bg-[var(--color-error)] text-white p-4 rounded-[8px] mb-6 font-body animate-hero">
             {{ session('error') }}
         </div>
     @endif
 
     @if($errors->any())
-        <div class="bg-[var(--color-error)] text-white p-4 rounded-md mb-6 font-body animate-hero">
+        <div class="bg-[var(--color-error)] text-white p-4 rounded-[8px] mb-6 font-body animate-hero">
             <ul class="list-disc pl-5">
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -78,7 +86,7 @@
     <!-- 1. Overview Tab -->
     <div x-show="tab === 'overview'" x-transition.opacity>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            <x-card class="animate-card bg-white border-[var(--color-border)] shadow-sm">
+            <x-card class="animate-card bg-[var(--color-surface)] border-[var(--color-border)] shadow-sm">
                 <p class="text-sm font-mono font-semibold text-[var(--color-text-secondary)] mb-2 uppercase tracking-wider">Saldo Kas Saat Ini</p>
                 <p class="text-4xl font-display font-bold text-[var(--color-secondary)]">Rp {{ number_format($totalSaldoTerkumpul, 0, ',', '.') }}</p>
                 <p class="text-xs text-[var(--color-text-secondary)] mt-2 font-body">*Total Pemasukan dikurangi Pengeluaran</p>
@@ -104,7 +112,7 @@
                     <table class="w-full text-left border-collapse">
                         <tbody class="divide-y divide-[var(--color-border)] font-body">
                             @forelse($setorans->take(5) as $setoran)
-                            <tr class="hover:bg-gray-50 transition">
+                            <tr class="hover:bg-[var(--color-background)] transition">
                                 <td class="py-4 px-6 font-display font-medium text-[var(--color-secondary)]">{{ $setoran->jemaah->nama_jemaah }}</td>
                                 <td class="py-4 px-6 text-sm font-mono text-[var(--color-text-secondary)]">{{ \Carbon\Carbon::parse($setoran->tanggal_setor)->translatedFormat('d M') }}</td>
                                 <td class="py-4 px-6 font-mono font-bold text-[var(--color-success)] text-right">+Rp {{ number_format($setoran->nominal_setor, 0, ',', '.') }}</td>
@@ -129,7 +137,7 @@
                     <table class="w-full text-left border-collapse">
                         <tbody class="divide-y divide-[var(--color-border)] font-body">
                             @forelse($pengeluarans->take(5) as $pengeluaran)
-                            <tr class="hover:bg-gray-50 transition">
+                            <tr class="hover:bg-[var(--color-background)] transition">
                                 <td class="py-4 px-6 font-display font-medium text-[var(--color-secondary)]">
                                     {{ $pengeluaran->nama_pengeluaran }}
                                     <div class="text-xs text-[var(--color-text-secondary)]">{{ $pengeluaran->hewanKurban->jenis_hewan ?? '-' }}</div>
@@ -158,7 +166,7 @@
         
         <!-- Form Tambah Hewan Kurban -->
         <div x-show="showFormHewan" x-collapse class="mb-8">
-            <x-card class="bg-white border-[var(--color-border)]">
+            <x-card class="bg-[var(--color-surface)] border-[var(--color-border)]">
                 <h3 class="font-display font-bold text-lg text-[var(--color-secondary)] mb-4 border-b pb-2">Form Tambah Hewan Kurban</h3>
                 <form action="{{ route('admin.hewan.store') }}" method="POST">
                     @csrf
@@ -268,7 +276,7 @@
     <div x-show="tab === 'jemaah'" x-transition.opacity style="display: none;">
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-2xl font-display font-medium text-[var(--color-secondary)]">Manajemen Jemaah</h2>
-            <x-button variant="primary" onclick="alert('Form tambah jemaah.')">+ Pendaftar Baru</x-button>
+            <x-button variant="primary" @click="showTambahJemaahModal = true">+ Pendaftar Baru</x-button>
         </div>
         
         <x-card class="p-0 overflow-hidden animate-card">
@@ -285,7 +293,7 @@
                     </thead>
                     <tbody class="divide-y divide-[var(--color-border)] font-body">
                         @forelse($jemaahs as $j)
-                        <tr class="hover:bg-gray-50 transition">
+                        <tr class="hover:bg-[var(--color-background)] transition">
                             <td class="py-5 px-6 font-display font-medium text-[var(--color-secondary)]">{{ $j->nama_jemaah }}</td>
                             <td class="py-5 px-6 text-sm text-[var(--color-text-secondary)]">{{ $j->hewanKurban->deskripsi ?? '-' }}</td>
                             <td class="py-5 px-6 font-mono font-bold text-[var(--color-secondary)]">Rp {{ number_format($j->total_saldo, 0, ',', '.') }}</td>
@@ -302,7 +310,7 @@
                                         <button type="submit" class="font-mono text-[var(--color-error)] font-semibold hover:underline">BATAL</button>
                                     </form>
                                 @else
-                                    <button type="button" class="font-mono text-gray-400 font-semibold cursor-not-allowed" onclick="alert('Jemaah tidak bisa dibatalkan karena sudah mulai menabung.')">BATAL</button>
+                                    <button type="button" class="font-mono text-[var(--color-text-secondary)] font-semibold cursor-not-allowed" onclick="alert('Jemaah tidak bisa dibatalkan karena sudah mulai menabung.')">BATAL</button>
                                 @endif
                             </td>
                         </tr>
@@ -322,7 +330,7 @@
             <div class="animate-card">
                 <h2 class="text-2xl font-display font-medium text-[var(--color-secondary)] mb-6">Pencatatan Setoran</h2>
                 
-                <x-card class="bg-white border-[var(--color-border)]">
+                <x-card class="bg-[var(--color-surface)] border-[var(--color-border)]">
                     <form action="{{ route('admin.setoran.store') }}" method="POST">
                         @csrf
                         <div class="space-y-5">
@@ -353,7 +361,7 @@
             <div class="animate-card">
                 <h2 class="text-2xl font-display font-medium text-[var(--color-secondary)] mb-6">Catat Pengeluaran</h2>
                 
-                <x-card class="bg-white border-[var(--color-border)]">
+                <x-card class="bg-[var(--color-surface)] border-[var(--color-border)]">
                     <form action="{{ route('admin.pengeluaran.store') }}" method="POST">
                         @csrf
                         <div class="space-y-4">
@@ -423,13 +431,13 @@
          
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-display font-medium text-[var(--color-secondary)]">Riwayat Transaksi</h2>
-            <button @click="showFilterModal = true" class="flex items-center space-x-2 bg-white border border-[var(--color-border)] px-4 py-2 rounded-md shadow-sm hover:bg-gray-50 transition text-sm font-mono text-[var(--color-secondary)]">
+            <button @click="showFilterModal = true" class="flex items-center space-x-2 bg-[var(--color-surface)] border border-[var(--color-border)] px-4 py-2 rounded-[8px] shadow-sm hover:bg-[var(--color-background)] transition text-sm font-mono text-[var(--color-secondary)]">
                 <i class="fa-solid fa-filter"></i>
                 <span x-text="'Filter: ' + filterType"></span>
             </button>
         </div>
 
-        <x-card class="p-0 overflow-hidden bg-white border-[var(--color-border)] shadow-sm">
+        <x-card class="p-0 overflow-hidden bg-[var(--color-surface)] border-[var(--color-border)] shadow-sm">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
@@ -453,7 +461,7 @@
                     </thead>
                     <tbody class="divide-y divide-[var(--color-border)] font-body">
                         <template x-for="trx in filteredTransactions" :key="trx.id">
-                            <tr class="hover:bg-gray-50 transition">
+                            <tr class="hover:bg-[var(--color-background)] transition">
                                 <td class="py-4 px-6 text-sm font-mono text-[var(--color-text-secondary)]" x-text="trx.id"></td>
                                 <td class="py-4 px-6 text-sm font-mono text-[var(--color-text-secondary)]" x-text="trx.tanggal"></td>
                                 <td class="py-4 px-6">
@@ -476,21 +484,21 @@
 
         <!-- Filter Modal -->
         <div x-show="showFilterModal" style="display: none;" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-            <div @click.away="showFilterModal = false" class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm">
+            <div @click.away="showFilterModal = false" class="bg-[var(--color-surface)] rounded-[8px] shadow-2xl p-6 w-full max-w-sm">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="font-display font-bold text-lg text-[var(--color-secondary)]">Filter Transaksi</h3>
-                    <button @click="showFilterModal = false" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-times"></i></button>
+                    <button @click="showFilterModal = false" class="text-[var(--color-text-secondary)] hover:text-[var(--color-text-secondary)]"><i class="fa-solid fa-times"></i></button>
                 </div>
                 <div class="space-y-3">
-                    <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-gray-50" :class="{'border-[var(--color-accent)] bg-[#e3e8e0]/30': filterType === 'Semua'}">
+                    <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-[var(--color-background)]" :class="{'border-[var(--color-accent)] bg-[#e3e8e0]/30': filterType === 'Semua'}">
                         <input type="radio" x-model="filterType" value="Semua" class="text-[var(--color-accent)] focus:ring-[var(--color-accent)]">
                         <span class="font-body text-[var(--color-secondary)]">Semua Transaksi</span>
                     </label>
-                    <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-gray-50" :class="{'border-[var(--color-accent)] bg-[#e3e8e0]/30': filterType === 'Pemasukan'}">
+                    <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-[var(--color-background)]" :class="{'border-[var(--color-accent)] bg-[#e3e8e0]/30': filterType === 'Pemasukan'}">
                         <input type="radio" x-model="filterType" value="Pemasukan" class="text-[var(--color-accent)] focus:ring-[var(--color-accent)]">
                         <span class="font-body text-[var(--color-secondary)]">Hanya Pemasukan (Setoran)</span>
                     </label>
-                    <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-gray-50" :class="{'border-[var(--color-accent)] bg-[#e3e8e0]/30': filterType === 'Pengeluaran'}">
+                    <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-[var(--color-background)]" :class="{'border-[var(--color-accent)] bg-[#e3e8e0]/30': filterType === 'Pengeluaran'}">
                         <input type="radio" x-model="filterType" value="Pengeluaran" class="text-[var(--color-accent)] focus:ring-[var(--color-accent)]">
                         <span class="font-body text-[var(--color-secondary)]">Hanya Pengeluaran</span>
                     </label>
@@ -508,7 +516,7 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Data Pokok Masjid -->
-                <x-card class="bg-white border-[var(--color-border)]">
+                <x-card class="bg-[var(--color-surface)] border-[var(--color-border)]">
                     <h3 class="font-display font-bold text-lg text-[var(--color-secondary)] mb-4 border-b pb-2">Informasi Profil</h3>
                     <form action="{{ route('admin.masjid.profil.update') }}" method="POST">
                         @csrf
@@ -549,11 +557,11 @@
                 <!-- Rekening dan Gambar -->
                 <div class="space-y-8">
                     <!-- Foto Masjid -->
-                    <x-card class="bg-white border-[var(--color-border)]">
+                    <x-card class="bg-[var(--color-surface)] border-[var(--color-border)]">
                         <h3 class="font-display font-bold text-lg text-[var(--color-secondary)] mb-4 border-b pb-2">Foto Masjid</h3>
                         
                         @if($masjid->gambar)
-                            <div class="mb-4 rounded-xl overflow-hidden shadow-sm">
+                            <div class="mb-4 rounded-[8px] overflow-hidden shadow-sm">
                                 <img src="{{ str_starts_with($masjid->gambar, 'http') ? $masjid->gambar : asset('storage/' . $masjid->gambar) }}" alt="Foto Masjid" class="w-full h-48 object-cover">
                             </div>
                             <form action="{{ route('admin.masjid.image.remove') }}" method="POST" class="mb-6">
@@ -569,7 +577,7 @@
                             <div class="space-y-4">
                                 <div>
                                     <label class="block text-sm font-mono font-semibold text-[var(--color-text-secondary)] mb-2">UPLOAD FOTO (OPSIONAL)</label>
-                                    <input type="file" name="image_file" accept="image/*" class="block w-full text-sm text-[var(--color-text-secondary)] file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[var(--color-accent)] file:text-white hover:file:bg-[var(--color-secondary)] cursor-pointer">
+                                    <input type="file" name="image_file" accept="image/*" class="block w-full text-sm text-[var(--color-text-secondary)] file:mr-4 file:py-2 file:px-4 file:rounded-[8px] file:border-0 file:text-sm file:font-semibold file:bg-[var(--color-accent)] file:text-white hover:file:bg-[var(--color-secondary)] cursor-pointer">
                                 </div>
                                 <div class="text-center text-sm text-[var(--color-text-secondary)]">- ATAU -</div>
                                 <div>
@@ -582,7 +590,7 @@
                     </x-card>
 
                     <!-- Informasi Rekening -->
-                    <x-card class="bg-white border-[var(--color-border)]">
+                    <x-card class="bg-[var(--color-surface)] border-[var(--color-border)]">
                         <h3 class="font-display font-bold text-lg text-[var(--color-secondary)] mb-4 border-b pb-2">Informasi Rekening & Pembayaran</h3>
                         
                         @if($masjid->rekenings && $masjid->rekenings->count() > 0)
@@ -613,9 +621,9 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="space-y-2">
-                                                    <input type="text" name="platform" value="{{ $rek->platform }}" required class="appearance-none block w-full px-3 py-2 border border-[var(--color-border)] rounded-[4px] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] font-body">
-                                                    <input type="text" name="nomor_rekening" value="{{ $rek->nomor_rekening }}" required class="appearance-none block w-full px-3 py-2 border border-[var(--color-border)] rounded-[4px] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] font-mono">
-                                                    <input type="text" name="atas_nama" value="{{ $rek->atas_nama }}" required class="appearance-none block w-full px-3 py-2 border border-[var(--color-border)] rounded-[4px] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] font-body">
+                                                    <input type="text" name="platform" value="{{ $rek->platform }}" required class="appearance-none block w-full px-3 py-2 border border-[var(--color-border)] rounded-[4px] bg-[var(--color-surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] font-body">
+                                                    <input type="text" name="nomor_rekening" value="{{ $rek->nomor_rekening }}" required class="appearance-none block w-full px-3 py-2 border border-[var(--color-border)] rounded-[4px] bg-[var(--color-surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] font-mono">
+                                                    <input type="text" name="atas_nama" value="{{ $rek->atas_nama }}" required class="appearance-none block w-full px-3 py-2 border border-[var(--color-border)] rounded-[4px] bg-[var(--color-surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] font-body">
                                                     
                                                     <div class="flex space-x-2 pt-2">
                                                         <x-button type="submit" variant="primary" class="text-xs py-1">Simpan</x-button>
@@ -651,6 +659,58 @@
                             </div>
                         </form>
                     </x-card>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Tambah Jemaah (Offline) -->
+    <div x-show="showTambahJemaahModal" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+            <div x-show="showTambahJemaahModal" x-transition.opacity class="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75 backdrop-blur-sm" @click="showTambahJemaahModal = false"></div>
+            
+            <div x-show="showTambahJemaahModal" x-transition class="relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-[#f4f6f3] rounded-[8px] shadow-2xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                <div class="absolute top-0 right-0 pt-4 pr-4">
+                    <button @click="showTambahJemaahModal = false" class="text-[var(--color-text-secondary)] hover:text-[var(--color-text-secondary)] focus:outline-none">
+                        <span class="sr-only">Tutup</span>
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-display font-medium text-[var(--color-secondary)] mb-6 border-b border-[var(--color-border)] pb-4">Pendaftaran Jemaah Manual</h3>
+                    
+                    <form action="{{ route('admin.jemaah.store') }}" method="POST">
+                        @csrf
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-mono text-[var(--color-text-secondary)] mb-1">Nama Jemaah</label>
+                                <input type="text" name="nama_jemaah" required minlength="3" placeholder="Nama lengkap jemaah" class="appearance-none block w-full px-4 py-3 border border-[var(--color-border)] rounded-[8px] bg-[var(--color-surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] font-body">
+                                <p class="text-xs text-[var(--color-text-secondary)] mt-1">Jemaah ini tidak akan memiliki akses login. Anda yang mencatat setorannya secara manual.</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-mono text-[var(--color-text-secondary)] mb-1">Pilihan Paket Kurban</label>
+                                <select name="hewan_kurban_id" required class="appearance-none block w-full px-4 py-3 border border-[var(--color-border)] rounded-[8px] bg-[var(--color-surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] font-body">
+                                    <option value="">-- Pilih Paket Hewan --</option>
+                                    @foreach($hewanKurbans as $hewan)
+                                        @php
+                                            $sisa = $hewan->kapasitas_slot - $hewan->slot_terisi;
+                                        @endphp
+                                        <option value="{{ $hewan->id }}" {{ $sisa == 0 ? 'disabled' : '' }}>
+                                            {{ $hewan->jenis_hewan }} ({{ $sisa }} Slot Tersisa) - Rp {{ number_format($hewan->target_per_slot, 0, ',', '.') }}/slot
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 flex space-x-3">
+                            <x-button type="submit" variant="primary" class="w-full justify-center">Daftarkan Jemaah</x-button>
+                            <x-button type="button" variant="outline" @click="showTambahJemaahModal = false" class="w-full justify-center">Batal</x-button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

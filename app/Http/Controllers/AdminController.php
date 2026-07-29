@@ -42,7 +42,7 @@ class AdminController extends Controller
                 'tipe' => 'Pemasukan',
                 'tanggal' => $setoran->tanggal_setor,
                 'keterangan' => 'Setoran Kurban: ' . ($setoran->jemaah->nama_jemaah ?? 'Jemaah'),
-                'nominal' => $setoran->nominal_setor,
+                'nominal' => $setoran->nominal,
                 'timestamp' => $setoran->created_at->timestamp,
             ]);
         }
@@ -69,6 +69,61 @@ class AdminController extends Controller
             'riwayatTransaksi'
         ));
     }
+
+    public function cetakLaporan()
+    {
+        $user = Auth::user();
+        $masjid = Masjid::where('admin_id', $user->id)->firstOrFail();
+        
+        $hewanKurbans = HewanKurban::where('masjid_id', $masjid->id)->get();
+        $jemaahs = Jemaah::with('hewanKurban')->where('masjid_id', $masjid->id)->get();
+        $setorans = Setoran::with('jemaah')->where('masjid_id', $masjid->id)->get();
+        $pengeluarans = Pengeluaran::with('hewanKurban')->where('masjid_id', $masjid->id)->get();
+        
+        $totalSetoran = $jemaahs->sum('total_saldo');
+        $totalPengeluaran = $pengeluarans->sum('nominal');
+        $totalSaldoTerkumpul = $totalSetoran - $totalPengeluaran;
+        
+        $riwayatTransaksi = collect();
+        foreach($setorans as $setoran) {
+            $riwayatTransaksi->push([
+                'id' => 'S-' . $setoran->id,
+                'tipe' => 'Pemasukan',
+                'tanggal' => $setoran->tanggal_setor,
+                'keterangan' => 'Setoran Kurban: ' . ($setoran->jemaah->nama_jemaah ?? 'Jemaah'),
+                'nominal' => $setoran->nominal,
+                'timestamp' => \Carbon\Carbon::parse($setoran->tanggal_setor)->timestamp,
+            ]);
+        }
+        foreach($pengeluarans as $pengeluaran) {
+            $riwayatTransaksi->push([
+                'id' => 'P-' . $pengeluaran->id,
+                'tipe' => 'Pengeluaran',
+                'tanggal' => $pengeluaran->tanggal,
+                'keterangan' => $pengeluaran->nama_pengeluaran . ' (' . ($pengeluaran->hewanKurban->jenis_hewan ?? 'Hewan') . ')',
+                'nominal' => $pengeluaran->nominal,
+                'timestamp' => \Carbon\Carbon::parse($pengeluaran->tanggal)->timestamp,
+            ]);
+        }
+        
+        // Urutkan dari yang terlama ke terbaru untuk laporan PDF (buku kas format)
+        $riwayatTransaksi = $riwayatTransaksi->sortBy('timestamp')->values();
+        
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.laporan-pdf', compact(
+            'masjid', 
+            'hewanKurbans', 
+            'jemaahs', 
+            'setorans', 
+            'pengeluarans',
+            'totalSaldoTerkumpul',
+            'totalSetoran',
+            'totalPengeluaran',
+            'riwayatTransaksi'
+        ));
+        
+        return $pdf->download('laporan-rekapitulasi-kurban-' . \Illuminate\Support\Str::slug($masjid->name) . '.pdf');
+    }
+
     public function updateImage(Request $request)
     {
         $request->validate([
@@ -347,5 +402,38 @@ class AdminController extends Controller
         $jemaah->delete();
 
         return back()->with('success', 'Pendaftaran Jemaah berhasil dibatalkan dan slot dikembalikan.');
+    }
+
+    public function storeJemaah(Request $request)
+    {
+        $user = Auth::user();
+        $masjid = Masjid::where('admin_id', $user->id)->firstOrFail();
+
+        $request->validate([
+            'nama_jemaah' => 'required|string|min:3|max:255',
+            'hewan_kurban_id' => 'required|exists:hewan_kurbans,id',
+        ]);
+
+        $hewan = HewanKurban::where('id', $request->hewan_kurban_id)
+                    ->where('masjid_id', $masjid->id)
+                    ->firstOrFail();
+
+        if ($hewan->slot_terisi >= $hewan->kapasitas_slot) {
+            return back()->with('error', 'Pendaftaran gagal: Slot untuk hewan kurban ini sudah penuh.');
+        }
+
+        // Tambahkan Jemaah Offline (user_id = null)
+        Jemaah::create([
+            'user_id' => null,
+            'masjid_id' => $masjid->id,
+            'hewan_kurban_id' => $hewan->id,
+            'nama_jemaah' => $request->nama_jemaah,
+            'total_saldo' => 0,
+            'status' => 'Belum Mulai',
+        ]);
+
+        $hewan->increment('slot_terisi');
+
+        return back()->with('success', 'Pendaftaran Jemaah (Offline) berhasil ditambahkan.');
     }
 }

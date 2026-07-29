@@ -23,9 +23,9 @@
             <p class="mt-2 text-sm font-body text-[var(--color-text-secondary)]">
                 Kami akan memberitahu Anda segera setelah akun Anda diaktifkan. Harap bersabar!
             </p>
-            <div class="mt-6 bg-gray-50 border border-gray-200 rounded-md p-4 text-left">
-                <h3 class="text-xs font-bold text-gray-700 font-mono mb-1">BUTUH BANTUAN?</h3>
-                <p class="text-xs font-body text-gray-600">
+            <div class="mt-6 bg-[var(--color-background)] border border-[var(--color-border)] rounded-[8px] p-4 text-left">
+                <h3 class="text-xs font-bold text-[var(--color-text-primary)] font-mono mb-1">BUTUH BANTUAN?</h3>
+                <p class="text-xs font-body text-[var(--color-text-secondary)]">
                     Jika akun Anda belum juga diaktifkan setelah 1x24 jam, silakan hubungi tim Superadmin kami melalui email di <strong>cs@sylvankurban.com</strong>.
                 </p>
             </div>
